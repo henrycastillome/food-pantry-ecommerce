@@ -62,6 +62,7 @@ const ContactForm = () => {
         toast.error("something went wrong, try again later");
       }
       setIsLoading(false);
+      setIsSuccess(false);
       formik.resetForm();
     },
 
