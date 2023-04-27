@@ -58,18 +58,10 @@ switch ($method) {
     }
         break;
         
-        // $rawData = file_get_contents('php://input');
-        // $data = json_decode($rawData);
-        // $stmt=$pdo->prepare("SELECT user_phone FROM user WHERE user_phone = :phoneNumber");
-
-        // $stmt->bindParam(':phoneNumber', sanitizeString($data->phoneNumber));
-
-        // $stmt->execute();
-        // $count=$stmt->fetchColumn();
-
-        // echo json_encode($count)
 
 
 
 
 }
+
+?>

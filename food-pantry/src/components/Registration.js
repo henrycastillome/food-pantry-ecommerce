@@ -11,6 +11,8 @@ import {
   Button,
   Spinner,
   HStack,
+  InputGroup,
+  InputRightElement,
 
 } from "@chakra-ui/react";
 import * as Yup from "yup";
@@ -22,7 +24,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 
-const ContactForm = () => {
+const Registration = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [phoneExists, setPhoneExists] = useState(false);
   const [isCheckingPhone, setIsCheckingPhone]=useState(false)
@@ -46,7 +48,7 @@ const ContactForm = () => {
       try {
         const body = JSON.stringify(values);
         const response = await axios.post(
-          "http://localhost/my_php/food-pantry-ecommerce/api/index.php",
+          "http://localhost/my_php/food-pantry-ecommerce/api/registration.php",
           body
         );
 
@@ -84,7 +86,7 @@ const ContactForm = () => {
         .oneOf([Yup.ref("pass"), null], "Both password must match")
         .required("Required"),
       phoneNumber: Yup.string()
-
+        .min(10, "add 10")
         .matches(phoneRegExp, "Phone is not valid")
         .required("Required")
         .test("uniqueness","phone already exist", (value)=> !phoneExists),
@@ -100,7 +102,7 @@ const ContactForm = () => {
   const checkPhoneNumber= async(phoneNumber)=>{
     setIsCheckingPhone(true)
     try{
-        const response = await axios.get(`http://localhost/my_php/food-pantry-ecommerce/api/index.php`,  { params: { phoneNumber } } )
+        const response = await axios.get(`http://localhost/my_php/food-pantry-ecommerce/api/registration.php`,  { params: { phoneNumber } } )
     console.log("response:",response)
     const count=response.data['COUNT(*)']
     if (count>0){
@@ -108,6 +110,7 @@ const ContactForm = () => {
         
         formik.setFieldError("phoneNumber", "Phone number already exists");
     } else{
+
         setPhoneExists(false)
         formik.setFieldError("phoneNumber", "")
         setIsSuccess(true)
@@ -285,29 +288,34 @@ const ContactForm = () => {
                 <FormLabel htmlFor="phoneNumber" textStyle="body">
                   Phone Number
                 </FormLabel>
-                <HStack>
+                <InputGroup>
                 <Input
                   id="phoneNumber"
                   name="phoneNumber"
                   type="number"
                   {...formik.getFieldProps("phoneNumber")}
                   onBlur={ (e) =>{
+                    
                     formik.getFieldProps("phoneNumber").onBlur(e)
-                    console.log("Phone input onBlur triggered"); // Add this line
+                    console.log("Phone input onBlur triggered"); 
                     checkPhoneNumber(e.target.value);
-                  }}
+                    }
+                   
+                
+                  }
                   borderColor=""
                   borderWidth="2px"
                   focusBorderColor=""
                   
                 />
+                <InputRightElement>
                 
                 {isCheckingPhone &&<Spinner />}
-                {!isCheckingPhone && !phoneExists && isSuccess && (
+                {!isCheckingPhone && !phoneExists && isSuccess && !formik.errors.phoneNumber &&(
                      <FontAwesomeIcon icon={faCheck} color="green" />)
                 }
-
-                </HStack>
+                </InputRightElement>
+                </InputGroup>
 
                 <FormErrorMessage>{formik.errors.phoneNumber}</FormErrorMessage>
               </FormControl>
@@ -354,4 +362,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default Registration;
