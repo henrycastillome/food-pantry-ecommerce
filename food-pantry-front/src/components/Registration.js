@@ -22,6 +22,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { useAuthContext } from "../context/AuthContext";
 
 
 const Registration = () => {
@@ -29,6 +30,7 @@ const Registration = () => {
   const [phoneExists, setPhoneExists] = useState(false);
   const [isCheckingPhone, setIsCheckingPhone]=useState(false)
   const [isSuccess, setIsSuccess]=useState(false)
+  const {user}=useAuthContext
   const isFormValid = () => {
     return !formik.dirty || !formik.isValid;
   };

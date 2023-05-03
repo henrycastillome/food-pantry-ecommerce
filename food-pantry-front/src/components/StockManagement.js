@@ -24,9 +24,67 @@ import {
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
+// import { S3 } from "aws-sdk";
+import { ToastContainer, toast } from "react-toastify";
+import AWS from 'aws-sdk';
+
+
+
+AWS.config.update({
+  region: process.env.REACT_APP_AWS_REGION,
+  accessKeyId:process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+});
+
+const s3 = new AWS.S3();
+
+//Function to upload files to aws bucket
+
+async function uploadFileToS3(file, productName) {
+    const sanitizedProductName=productName.replace(/[^a-z0-9]/gi,'_').toLowerCase()
+    const newFileName = `${sanitizedProductName}`;
+  
+    const params = {
+      Bucket: "food-pantry-ecommerce",
+      Key: `products/${newFileName}`,
+      ContentType: file.type,
+      Body: file,
+    };
+  
+    try {
+      await s3.upload(params).promise();
+      console.log("File uploaded successfully");
+      return newFileName;
+    } catch (error) {
+      console.error("Error uploading file to S3:", error);
+      throw error;
+    }
+  }
+
+async function getUrlImage(key){
+const s3 = new AWS.S3();
+var params = {Bucket: 'food-pantry-ecommerce', Key: `products/${key}`, Expires:null};
+
+var url = s3.getSignedUrl('getObject', params);
+
+return url
+}
+
+
+
+
 
 const StockManagement = () => {
+   
+
     const [imagePreview, setImagePreview]=useState(null)
+    const isFormValid = () => {
+        return !formik.dirty || !formik.isValid;
+      };
+    
+
+    
+    const [isLoading, setIsLoading]=useState(false)
     const handleImageUpload=(event)=>{
         const file=event.target.files[0]
         formik.setFieldValue('image',file)
@@ -37,23 +95,58 @@ const StockManagement = () => {
       category: "",
       productName: "",
       quantity: "",
-      file:null
+      image:null
     },
     onSubmit: async (values) => {
       try {
-        const body = alert(JSON.stringify(values));
+            setIsLoading(true)
+
+            
+            const uploadedFileName= await uploadFileToS3(values.image, values.productName)
+            const imageUrl=await getUrlImage(uploadedFileName)
+           
+            
+
+            const requestBody={
+                    productName: values.productName,
+                    quantity: values.quantity,
+                    category: values.category,
+                    imageName: encodeURIComponent (imageUrl),
+                  };
+
+            const body= JSON.stringify(requestBody)
+            const responses= await axios.post("http://localhost/my_php/food-pantry-ecommerce/api/products.php", body)
+            console.log(responses)
+            if (responses['status']=== 1) {
+                toast.success(
+                  `${values.productName}, the product has been created successfully`
+                );
+              } else {
+                toast.error("Error server:", responses['message']);
+              }
+            
         // const response = await axios.post("", body);
       } catch (error) {
         console.error("error", error);
-      }
+      } finally{setIsLoading(false)}
     },
     validationSchema:Yup.object().shape({
+        category:Yup.string()
+            .ensure()
+            .required('please select one'),
+        productName:Yup.string()
+            .min(2, 'too short')
+            .max(50, 'too long'),
+        quantity:Yup.number()
+            .min(1)
+            .max(100, 'too many')
+            .required("please add a quantity"),
         image:Yup.mixed()
             .required("Image is required")
             .test("fileSize", "File Size is too large", (value)=>{
-                return value && value.size <=5000000;})
+                return value && value.size <=50000000;})
             .test("fileType", "Unsupported file type", (value)=>{
-                value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+               return  value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
             })
     })
 
@@ -69,6 +162,18 @@ const StockManagement = () => {
       pt={{ base: 8, md: 32 }}
       pb={{ base: 32, md: 32 }}
     >
+        <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Heading as="h1">Stock Management</Heading>
 
       <VStack w="100%" alignItems="start" justifyContent="flex-start">
@@ -82,10 +187,11 @@ const StockManagement = () => {
             method="post"
             name="contact"
           >
+            <input type="hidden" name="contact" value="contact" />
             <VStack spacing={4}>
             <FormControl
                 isInvalid={
-                  formik.touched.email && formik.errors.email ? true : false
+                  formik.touched.category && formik.errors.category ? true : false
                 }
               >
               <FormLabel htmlFor="category">Category</FormLabel>
@@ -107,7 +213,7 @@ const StockManagement = () => {
 
               <FormControl
                 isInvalid={
-                  formik.touched.email && formik.errors.email ? true : false
+                  formik.touched.productName && formik.errors.productName ? true : false
                 }
               >
 
@@ -120,7 +226,7 @@ const StockManagement = () => {
                 borderWidth="2px"
                 {...formik.getFieldProps("productName")}
               />
-              <FormErrorMessage>{formik.errors.category}</FormErrorMessage>
+              <FormErrorMessage>{formik.errors.productName}</FormErrorMessage>
               </FormControl>
 
 
@@ -129,7 +235,7 @@ const StockManagement = () => {
               
               <FormControl
                 isInvalid={
-                  formik.touched.email && formik.errors.email ? true : false
+                  formik.touched.quantity && formik.errors.quantity ? true : false
                 }
               >
 
@@ -142,13 +248,13 @@ const StockManagement = () => {
                 borderWidth="2px"
                 {...formik.getFieldProps("quantity")}
               />
-              <FormErrorMessage>{formik.errors.category}</FormErrorMessage>
+              <FormErrorMessage>{formik.errors.quantity}</FormErrorMessage>
               </FormControl>
 
                   
               <FormControl
                 isInvalid={
-                  formik.touched.email && formik.errors.email ? true : false
+                  formik.touched.image && formik.errors.image ? true : false
                 }
               >
 
@@ -157,17 +263,18 @@ const StockManagement = () => {
                 id="image"
                 name="image"
                 type="file"
-             
+                accept="image/*"
                 border='none'
                 onChange={handleImageUpload}
                
               />
-              <FormErrorMessage>{formik.errors.category}</FormErrorMessage>
+              <FormErrorMessage>{formik.errors.image}</FormErrorMessage>
               </FormControl>
               <Button
                 type="submit"
                 width="full"
-                
+                isDisabled={isFormValid()}
+                isLoading={isLoading}
                 loadingText="Loging in...."
                 colorScheme="teal"
                 variant="outline"
@@ -192,7 +299,8 @@ const StockManagement = () => {
            />)
            :
             (<Image
-      src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+            
+      src='https://food-pantry-ecommerce.s3.amazonaws.com/products/toilet_paper?AWSAccessKeyId=AKIAQRE5XFIEXXFEXKOM&Expires=1683091722&Signature=F1GssRj21fQLRybQU%2FnMPK0ZpuU%3D'
       alt='Green double couch with wooden legs'
       borderRadius='lg'
     />) }

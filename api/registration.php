@@ -52,6 +52,11 @@ switch ($method) {
         $stmt = $pdo->prepare("SELECT COUNT(*) FROM user WHERE user_phone = :phoneNumber");
         $stmt->bindParam(':phoneNumber', $phoneNumber);
         $stmt->execute();
+          if ($stmt) {
+            echo '<script>alert("sucess")</script>';
+        } else {
+            echo "failure";
+        }
         $count = $stmt->fetch(PDO::FETCH_ASSOC);
       
         echo json_encode($count);

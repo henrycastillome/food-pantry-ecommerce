@@ -5,7 +5,7 @@
 
 
 $host = 'localhost'; // Change as necessary
-$data = 'contact_form'; // Change as necessary
+$data = 'food_pantry'; // Change as necessary
 $user = 'root'; // Change as necessary
 $pass = ''; // Change as necessary
 $chrs = 'utf8mb4';
