@@ -13,12 +13,15 @@ import {
   TableContainer,
   WrapItem,
   Button,
+  Spinner,
+  Input,
 } from "@chakra-ui/react";
 import FullScreenSection from "./FullScreenSection";
 import axios from "axios";
 import AWS from "aws-sdk";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ToastContainer, toast } from "react-toastify";
 
 AWS.config.update({
   region: process.env.REACT_APP_AWS_REGION,
@@ -28,6 +31,44 @@ AWS.config.update({
 
 const ListItems = () => {
   const [products, setProducts] = useState([]);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [editText, setEditText] = useState(null);
+  const [editValue, setEditValue] = useState({});
+
+  useEffect(() => {
+    if (editText === null) return;
+    setEditValue(products.find((item) => item.item_id === editText));
+  }, [editText]);
+
+  const handleEdit = (item_id) => {
+    setEditText(item_id);
+  };
+
+  const handleSave = (id) => {
+    setIsSaving(true);
+    axios
+      .put(
+        ` http://localhost/my_php/food-pantry-ecommerce/api/products.php/${id}/put`,
+        editValue
+      )
+      .then(function (response) {
+        const success = response.data["status"];
+        console.log(response.data);
+        if (success === 1) {
+          toast.success("item updated successfully");
+          getProducts();
+        } else {
+          toast.error("error updating the item");
+        }
+        setIsSaving(false);
+      });
+    const updatedData = products.map((item) =>
+      item.item_id === editText ? editValue : item
+    );
+    setProducts(updatedData);
+    setEditText(null);
+  };
 
   useEffect(() => {
     getProducts();
@@ -43,18 +84,18 @@ const ListItems = () => {
   }
 
   const handleDelete = (id) => {
-   
-      axios
-        .delete(
-          ` http://localhost/my_php/food-pantry-ecommerce/api/products.php/${id}/delete`
-        )
-        .then(function (response) {
-          console.log(response.data);
-          getProducts();
-
-     
-        });
-    } 
+    setIsDeleting(true);
+    console.log(isDeleting);
+    axios
+      .delete(
+        ` http://localhost/my_php/food-pantry-ecommerce/api/products.php/${id}/delete`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        getProducts();
+        setIsDeleting(false);
+      });
+  };
 
   if (!products.length)
     return <FullScreenSection> Loading.....</FullScreenSection>;
@@ -70,6 +111,18 @@ const ListItems = () => {
       pt={{ base: 8, md: 32 }}
       pb={{ base: 32, md: 32 }}
     >
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Heading as="h1"> List of Items </Heading>
 
       <TableContainer>
@@ -83,6 +136,8 @@ const ListItems = () => {
               <Th>Category</Th>
               <Th> Quantity</Th>
               <Th> Image</Th>
+              <Th> Last update</Th>
+              <Th> Edit</Th>
               <Th> Remove</Th>
             </Tr>
           </Thead>
@@ -92,7 +147,21 @@ const ListItems = () => {
                 <Td>{product.item_id}</Td>
                 <Td>{product.item_name}</Td>
                 <Td>{product.item_category}</Td>
-                <Td>{product.item_quantity}</Td>
+                <Td>
+                  {editText === product.item_id ? (
+                    <Input
+                      value={editValue.item_quantity || ""}
+                      onChange={(e) =>
+                        setEditValue({
+                          ...editValue,
+                          item_quantity: e.target.value,
+                        })
+                      }
+                    />
+                  ) : (
+                    product.item_quantity
+                  )}
+                </Td>
 
                 <Td>
                   <WrapItem>
@@ -103,9 +172,30 @@ const ListItems = () => {
                     />
                   </WrapItem>
                 </Td>
+                <Td>{product.last_modified}</Td>
                 <Td>
-                  <Button onClick={()=>handleDelete(product.item_id)}>
-                    <FontAwesomeIcon icon={faTrash} />{" "}
+                  {editText === product.item_id ? (
+                    <Button
+                      spinnerPlacement="start"
+                      isLoading={isSaving}
+                      loadingText="Saving...."
+                      onClick={() => handleSave(product.item_id)}
+                    >
+                      Save
+                    </Button>
+                  ) : (
+                    <Button onClick={() => handleEdit(product.item_id)}>
+                      Edit
+                    </Button>
+                  )}
+                </Td>
+                <Td>
+                  <Button onClick={() => handleDelete(product.item_id)}>
+                    {isDeleting ? (
+                      <Spinner />
+                    ) : (
+                      <FontAwesomeIcon icon={faTrash} />
+                    )}
                   </Button>
                 </Td>
               </Tr>

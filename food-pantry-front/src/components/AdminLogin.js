@@ -13,7 +13,7 @@ import {
   HStack,
   InputRightElement,
   InputGroup,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -28,12 +28,9 @@ const AdminLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const isFormValid = () => !formik.dirty || !formik.isValid;
   const handleClick = () => setShow(!show);
-  const navigate=useNavigate();
-  const {user, setUser, isAuthenticated, setIsAuthenticated}=useAuthContext()
- 
-
-
-
+  const navigate = useNavigate();
+  const { user, setUser, isAuthenticated, setIsAuthenticated } =
+    useAuthContext();
 
   const formik = useFormik({
     initialValues: {
@@ -43,9 +40,8 @@ const AdminLogin = () => {
     onSubmit: async (values) => {
       setIsLoading(true);
       try {
-      
         const body = JSON.stringify(values);
-       
+
         const response = await axios.post(
           "http://localhost/my_php/food-pantry-ecommerce/api/adminLogin.php",
           body
@@ -53,21 +49,20 @@ const AdminLogin = () => {
         console.log(response.data);
         const validUser = await response.data["status"];
         console.log(validUser);
-       
-        if (validUser === 1) {
-          
-          const userData=response.data['admin_name'];
-          setIsAuthenticated(userData)
-          setIsAuthenticated(true)
-          
-          toast.success(`Welcome back ${values.email}! You're now logged in`);
-          setTimeout(()=>{
-            navigate("/inventory")
 
-          },5000)
-         
+        if (validUser === 1) {
+          const userData = response.data["admin_name"];
+          setUser(userData);
+          setIsAuthenticated(true);
+
+          toast.success(`Welcome back ${values.email}! You're now logged in`);
+          setTimeout(() => {
+            navigate("/inventory");
+          }, 5000);
         } else {
-          toast.error("Oops! The email or password you entered is incorrect. Please double-check and try again");
+          toast.error(
+            "Oops! The email or password you entered is incorrect. Please double-check and try again"
+          );
         }
       } catch (error) {
         console.error("error", error);
@@ -81,8 +76,6 @@ const AdminLogin = () => {
     }),
   });
 
-
-  
   return (
     <FullScreenSection
       backgroundColor="white"
@@ -106,12 +99,9 @@ const AdminLogin = () => {
         pauseOnHover
         theme="light"
       />
-     
 
       <Heading as="h1">Admin Login</Heading>
-      {user && <Text> You are logged in as {user}</Text>}
-      
-    
+      {isAuthenticated && <Text> You are logged in as {user}</Text>}
 
       <VStack w="100%" alignItems="start" justifyContent="flex-start">
         <Box p={6} rounded="md" w="100%">

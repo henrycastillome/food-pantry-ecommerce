@@ -73,9 +73,29 @@ switch ($method) {
             echo json_encode($response);
             break;
 
+        case "PUT":
+            $rawData = file_get_contents('php://input');
+            $data = json_decode($rawData);
+            $stmt = $pdo->prepare('UPDATE items SET item_quantity=:new_quantity WHERE item_id=:id');
+
+            $new_quantity=sanitizeString($data->item_quantity);
+            $id=sanitizeString($data->item_id);
+            $stmt->bindParam(':new_quantity', $new_quantity);
+            $stmt->bindParam(':id', $id);
+
+            if ($stmt->execute()) {
+                $response = ['status' => 1, 'message' => 'Item updated successfully'];
+            } else {
+                $response = ['status' => 0, 'message' => 'Failed to update item'];
+            }
+            echo json_encode($response);
+            
+    }
+
+
+
 
    
         
-}
-
 ?>
+
