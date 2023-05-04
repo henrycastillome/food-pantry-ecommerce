@@ -9,6 +9,7 @@ import StockManagement from './components/StockManagement';
 import ListItems from './components/ListItems';
 import ListUsers from './components/ListUsers';
 import InventoryManagement from './pages/InventoryManagement';
+import HomePage from "./pages/HomePage"
 import AdminLogin from './components/AdminLogin';
 import { AuthProvider} from './context/AuthContext';
 
@@ -19,6 +20,7 @@ function App() {
       <AuthProvider>
       <main>
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/login" element={<Login />} />
           <Route path="/stockmanagement" element={<StockManagement />} />

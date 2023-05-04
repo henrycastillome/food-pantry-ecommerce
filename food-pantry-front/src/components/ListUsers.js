@@ -50,8 +50,6 @@ const ListUsers = () => {
     console.log(userSearch);
   };
 
-  if (!users.length || !userSearch.length )
-    return <FullScreenSection> Loading.....</FullScreenSection>;
   return (
     <FullScreenSection
       backgroundColor="white"

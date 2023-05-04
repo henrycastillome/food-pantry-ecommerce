@@ -21,11 +21,6 @@ import NavBarAdmin from "../components/NavBarAdmin";
 const InventoryManagement = () => {
   const { user, isAuthenticated } = useAuthContext();
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/admin");
-    }
-  }, [isAuthenticated, navigate]);
 
   return (
     <FullScreenSection
@@ -38,28 +33,34 @@ const InventoryManagement = () => {
       pt={{ base: 8, md: 32 }}
       pb={{ base: 32, md: 32 }}
     >
-      <NavBarAdmin user={user} />
+      {isAuthenticated ? (
+        <>
+          <NavBarAdmin user={user} />
+          <Tabs isFitted variant="enclosed" colorScheme="teal">
+            <TabList>
+              <Tab>List Items</Tab>
+              <Tab>List users</Tab>
+              <Tab backgroundColor="teal" color="white">
+                Add new item
+              </Tab>
+            </TabList>
 
-      {isAuthenticated && (
-        <Tabs isFitted variant="enclosed" colorScheme="teal">
-          <TabList>
-            <Tab>List Items</Tab>
-            <Tab>List users</Tab>
-            <Tab backgroundColor="teal" color="white">
-              Add new item
-            </Tab>
-          </TabList>
+            <TabPanels>
+              <TabPanel>
+                <ListItems />
+              </TabPanel>
+              <TabPanel>
+                <ListUsers />
+              </TabPanel>
 
-          <TabPanels>
-            <TabPanel>
-              <ListItems />
-            </TabPanel>
-            <TabPanel>Jose</TabPanel>
-            <TabPanel>
-              <StockManagement />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+              <TabPanel>
+                <StockManagement />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </>
+      ) : (
+        <AdminLogin />
       )}
     </FullScreenSection>
   );

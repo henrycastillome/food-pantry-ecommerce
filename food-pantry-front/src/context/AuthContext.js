@@ -15,10 +15,13 @@ export const AuthProvider=({children})=>{
     useEffect(()=>{
         if(user){
             localStorage.setItem('user', user)
+            setIsAuthenticated(true)
         } else{
             localStorage.removeItem('user')
         }
     }, [user])
+
+        
 
    
 

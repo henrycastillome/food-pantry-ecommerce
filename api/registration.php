@@ -30,34 +30,35 @@ switch ($method) {
         $stmt = $pdo->prepare('INSERT INTO user (user_name, user_lname, user_email,password_user, user_phone, stu_id)
            VALUES (:firstName, :lastName, :email, :pass, :phoneNumber, :studentId)');
 
-        $stmt->bindParam(':firstName', sanitizeString($data->firstName));
-        $stmt->bindParam(':lastName', sanitizeString($data->lastName));
-        $stmt->bindParam(':email', sanitizeString($data->email));
+        $firstName=sanitizeString($data->firstName);
+        $lastName=sanitizeString($data->lastName);
+        $email=sanitizeString($data->email);
+        $studentId=sanitizeString($data->studentId);
+
+        $stmt->bindParam(':firstName', $firstName);
+        $stmt->bindParam(':lastName', $lastName);
+        $stmt->bindParam(':email', $email);
         $stmt->bindParam(':pass', password_hash(sanitizeString($data->pass), PASSWORD_DEFAULT));
         $stmt->bindParam(':phoneNumber', sanitizeString($data->phoneNumber));
-        $stmt->bindParam(':studentId', sanitizeString($data->studentId));
+        $stmt->bindParam(':studentId', $studentId);
 
-        $stmt->execute();
-
-        if ($stmt) {
-            echo '<script>alert("sucess")</script>';
+        if($stmt->execute()) {
+            $response = ['status' => 1, 'message' => 'User registered successfully'];
         } else {
-            echo "failure";
+            $response = ['status' => 0, 'message' => 'Failed to register'];
         }
+        echo json_encode($response);
         break;
 
     case "GET":
         if(isset($_GET['phoneNumber'])){
-        $phoneNumber = $_GET["phoneNumber"];
+        $phoneNumbers = $_GET["phoneNumber"];
         $stmt = $pdo->prepare("SELECT COUNT(*) FROM user WHERE user_phone = :phoneNumber");
-        $stmt->bindParam(':phoneNumber', $phoneNumber);
+        $stmt->bindParam(':phoneNumber', $phoneNumbers);
         $stmt->execute();
-          if ($stmt) {
-            echo '<script>alert("sucess")</script>';
-        } else {
-            echo "failure";
-        }
         $count = $stmt->fetch(PDO::FETCH_ASSOC);
+          
+        
       
         echo json_encode($count);
     }

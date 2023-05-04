@@ -53,6 +53,7 @@ const Registration = () => {
           "http://localhost/my_php/food-pantry-ecommerce/api/registration.php",
           body
         );
+        
 
         if (response.status === 200) {
           toast.success(
@@ -107,6 +108,7 @@ const Registration = () => {
         const response = await axios.get(`http://localhost/my_php/food-pantry-ecommerce/api/registration.php`,  { params: { phoneNumber } } )
     console.log("response:",response)
     const count=response.data['COUNT(*)']
+    console.log(count)
     if (count>0){
         setPhoneExists(true)
         
@@ -154,8 +156,8 @@ const Registration = () => {
         Registration Form
       </Heading>
 
-      <VStack w="100%" alignItems="start" justifyContent="flex-start">
-        <Box p={6} rounded="md" w="100%">
+      <VStack  w="100%" alignItems="start" justifyContent="flex-start">
+        <Box p={6} rounded="md" w="100%" >
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -167,7 +169,7 @@ const Registration = () => {
           >
             <input type="hidden" name="contact" value="contact" />
 
-            <VStack spacing={4}>
+            <VStack spacing={4} >
               <FormControl
                 isInvalid={
                   formik.touched.firstName && formik.errors.firstName
@@ -181,7 +183,7 @@ const Registration = () => {
                 <Input
                   id="firstName"
                   name="firstName"
-                  borderColor="blue"
+                  borderColor="teal"
                   borderWidth="2px"
                   focusBorderColor=""
                   {...formik.getFieldProps("firstName")}
@@ -204,7 +206,7 @@ const Registration = () => {
                 <Input
                   id="lastName"
                   name="lastName"
-                  borderColor=""
+                  borderColor="teal"
                   borderWidth="2px"
                   focusBorderColor=""
                   value={formik.values.lastName}
@@ -225,7 +227,7 @@ const Registration = () => {
                   id="email"
                   name="email"
                   type="email"
-                  borderColor=""
+                  borderColor="teal"
                   borderWidth="2px"
                   focusBorderColor=""
                   value={formik.values.email}
@@ -246,7 +248,7 @@ const Registration = () => {
                   id="pass"
                   name="pass"
                   type="password"
-                  borderColor=""
+                  borderColor="teal"
                   borderWidth="2px"
                   focusBorderColor=""
                   value={formik.values.pass}
@@ -270,7 +272,7 @@ const Registration = () => {
                   id="passwordConfirmation"
                   name="passwordConfirmation"
                   type="password"
-                  borderColor=""
+                  borderColor="teal"
                   borderWidth="2px"
                   focusBorderColor=""
                   {...formik.getFieldProps("passwordConfirmation")}
@@ -292,6 +294,9 @@ const Registration = () => {
                 </FormLabel>
                 <InputGroup>
                 <Input
+                borderColor="teal"
+                borderWidth="2px"
+                focusBorderColor=""
                   id="phoneNumber"
                   name="phoneNumber"
                   type="number"
@@ -305,9 +310,7 @@ const Registration = () => {
                    
                 
                   }
-                  borderColor=""
-                  borderWidth="2px"
-                  focusBorderColor=""
+                 
                   
                 />
                 <InputRightElement>
@@ -335,9 +338,10 @@ const Registration = () => {
                   id="studentId"
                   name="studentId"
                   type="number"
-                  borderColor=""
+                  borderColor="teal"
                   borderWidth="2px"
                   focusBorderColor=""
+                 
                   {...formik.getFieldProps("studentId")}
                 />
 
