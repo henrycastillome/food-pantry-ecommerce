@@ -4,32 +4,23 @@ import logonyc from "../images/logonyc.png";
 const Header = () => {
   return (
     <Box
-      style={{ outline: "red dashed 1px" }}
       display="flex"
       flexDirection="row"
       alignItems="center"
-      justifyContent='center'
+      justifyContent="center"
       maxWidth="100vw"
       width="100vw"
-      
-     
     >
-      <HStack
-        px={16}
-     
-        style={{ outline: "blue dashed 1px" }}
-        gap='30rem'
-        
-      >
+      <HStack px={16} gap="30rem">
         <nav>
-          <HStack style={{ outline: "green dashed 1px" }}>
+          <HStack>
             <img src={logonyc} alt="logonycdoe" />
           </HStack>
         </nav>
         <nav>
-          <HStack spacing={4} style={{ outline: "green dashed 1px" }}>
-            <Button bg='transparent'>Home</Button>
-            <Button bg='transparent'>Products</Button>
+          <HStack spacing={4}>
+            <Button bg="transparent">Home</Button>
+            <Button bg="transparent">Products</Button>
             <Button variant="solid" colorScheme="teal">
               Sign up
             </Button>
@@ -37,9 +28,9 @@ const Header = () => {
               {" "}
               Login
             </Button>
-            <Button variant="ghost" colorScheme="teal">
+            <Button fontSize='sm' as='u' variant="link" colorScheme="teal">
               {" "}
-              Admin Log in
+              Admin
             </Button>
           </HStack>
         </nav>

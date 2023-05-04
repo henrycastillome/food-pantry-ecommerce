@@ -22,6 +22,7 @@ import AWS from "aws-sdk";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ToastContainer, toast } from "react-toastify";
+import { useAuthContext } from "../context/AuthContext";
 
 AWS.config.update({
   region: process.env.REACT_APP_AWS_REGION,
@@ -30,7 +31,7 @@ AWS.config.update({
 });
 
 const ListItems = () => {
-  const [products, setProducts] = useState([]);
+  const {products, setProducts, getProducts} = useAuthContext()
   const [isDeleting, setIsDeleting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [editText, setEditText] = useState(null);
@@ -39,7 +40,7 @@ const ListItems = () => {
   useEffect(() => {
     if (editText === null) return;
     setEditValue(products.find((item) => item.item_id === editText));
-  }, [editText]);
+  }, [editText, products]);
 
   const handleEdit = (item_id) => {
     setEditText(item_id);
@@ -70,18 +71,7 @@ const ListItems = () => {
     setEditText(null);
   };
 
-  useEffect(() => {
-    getProducts();
-  }, []);
-
-  function getProducts() {
-    axios
-      .get("http://localhost/my_php/food-pantry-ecommerce/api/inventory.php")
-      .then(function (response) {
-        console.log(response.data);
-        setProducts(response.data);
-      });
-  }
+  
 
   const handleDelete = (id) => {
     setIsDeleting(true);

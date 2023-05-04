@@ -1,5 +1,10 @@
 :root{
-  --secondary-color-white:#e4f1ec;
+  --color-teal:#319795;
+  --color-white:#F5F5F5;
+  --color-dark:#324B4A;
+  --color-gray:#95B1AF;
+  --color-accent: #BA7589;
+  --color-second-accent: #834357
 }
 body {
   margin: 0;
@@ -11,7 +16,7 @@ section{
   height: 80vh;
   position: relative;
   display: flex;
-  background-image: linear-gradient(rgba(44, 122, 123, 0.5), rgba(44, 122, 123, 0.5)),url('./images/hero.jpg');
+  background-image: linear-gradient(rgba(50, 75, 74, 0.5), rgba(50, 75, 74, 0.5)),url('./images/hero.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -23,11 +28,12 @@ section{
   width: 100%;
   top: 0;
   left: 0;
-  color: white;
+  color: var(--color-white);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  outline: red dashed 2px;
 
 
 

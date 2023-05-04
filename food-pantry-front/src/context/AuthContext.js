@@ -1,4 +1,5 @@
 import {createContext, useContext, useState,useEffect} from 'react'
+import axios from "axios";
 
 
 
@@ -21,12 +22,25 @@ export const AuthProvider=({children})=>{
         }
     }, [user])
 
-        
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        getProducts();
+      }, []);
+    
+      function getProducts() {
+        axios
+          .get("http://localhost/my_php/food-pantry-ecommerce/api/inventory.php")
+          .then(function (response) {
+            console.log(response.data);
+            setProducts(response.data);
+          });
+      }
 
    
 
     return (
-        <AuthContext.Provider value={{user, setUser, isAuthenticated, setIsAuthenticated}}>
+        <AuthContext.Provider value={{user, setUser, isAuthenticated, setIsAuthenticated, products, setProducts,getProducts}}>
             {children}
         </AuthContext.Provider>
     )
