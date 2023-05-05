@@ -7,21 +7,62 @@ import { useAuthContext } from "../context/AuthContext";
 import Cards from "../components/Cards";
 import ShowAll from "../components/ShowAll"
 import ShowHygiene from "../components/ShowHygiene"
+import ShowFood from "../components/ShowFood";
+import ShowHouseHold from "../components/ShowHouseHold";
+
+const ProductDisplay=({showAllItems, showHygi, showFoods, showHouse})=>{
+    if(showHygi){
+        return <ShowHygiene />
+    } else if(showAllItems){
+        return <ShowAll />
+    } else if(showFoods){
+        return <ShowFood />
+    } else if(showHouse){
+        return <ShowHouseHold />
+    }
+    else {
+        return <Box color="gray.500"> Please select a filter</Box>
+    }
+}
 
 const ProductPage = () => {
  
     const [showAllItems, setShowAllItems]=useState(true)
     const [showHygi, setShowHygi]=useState(false)
+    const [showFoods, setShowFoods]=useState(false)
+    const [showHouse, setShowHouse]=useState(false)
 
     const showAllProducts=()=>{
+        setShowHygi(false)
+        setShowFoods(false)
+        setShowHouse(false)
         setShowAllItems(!showAllItems)
+       
 
     }
     const showAllHygiene=()=>{
+         setShowAllItems(false)
+            setShowFoods(false)
+            setShowHouse(false)
         setShowHygi(!showHygi)
-        if(!showHygi){
-            setShowAllItems(true)
-        }
+       
+      
+    }
+
+    const showAllFood=()=>{
+        setShowAllItems(false)
+            setShowHygi(false)
+            setShowHouse(false)
+        setShowFoods(!showFoods)
+       
+    }
+
+    const showHouseHoldItems=()=>{
+        setShowAllItems(false)
+            setShowHygi(false)
+            setShowFoods(false)
+        setShowHouse(!showHouse)
+       
     }
 
 
@@ -54,16 +95,16 @@ const ProductPage = () => {
             <HStack spacing={4}>
             <Heading fontSize='lg'> Filter by: </Heading>
                 <ButtonGroup variant='outline' colorScheme="teal" spacing={4}> 
-                    <Button  onClick={showAllProducts}>All Products</Button>
-                    <Button onClick={showAllHygiene}> Hygiene</Button>
-                    <Button> Food</Button>
-                    <Button> Household Items</Button>
+                    <Button isActive={showAllItems} onClick={showAllProducts}>All Products</Button>
+                    <Button isActive={showHygi} onClick={showAllHygiene}> Hygiene</Button>
+                    <Button isActive={showFoods} onClick={showAllFood}> Food</Button>
+                    <Button isActive={showHouse} onClick={showHouseHoldItems}> Household Items</Button>
                 </ButtonGroup>
             </HStack>
         </Box>
         
-        {showAllItems && <ShowAll />}
-        {showHygi && <ShowHygiene />}
+        
+       <ProductDisplay showAllItems={showAllItems} showHygi={showHygi} showFoods={showFoods} showHouse={showHouse} /> 
         
        
 

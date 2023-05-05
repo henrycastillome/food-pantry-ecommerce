@@ -3,26 +3,26 @@ import { Heading, Box, Text, Grid, GridItem, Button, HStack, ButtonGroup, Card }
 import Cards from "../components/Cards"
 import { useEffect, useState } from "react";
 
-const ShowHygiene=()=>{
+const ShowHouseHold=()=>{
      const{ products }=useAuthContext()
-     const [hygieneItems, setHygieneItems]=useState([])
+     const [hhItems, setHhItems]=useState([])
 
      useEffect(()=>{
-        const newArrayHigiene=()=>{
-            const newHygiene=[];
+        const newArrayHhItems=()=>{
+            const newHhItems=[];
             products.forEach(element => {
                 console.log("loop",element.item_category)
-                if(element.item_category==="Hygiene"){
-                    newHygiene.push(element)
+                if(element.item_category==="Household items"){
+                    newHhItems.push(element)
                 }
                 
             });
-            console.log("new Hygiene ", newHygiene)
-            setHygieneItems(newHygiene)
+            
+            setHhItems(newHhItems)
     
          }
          if(products.length>0){
-            newArrayHigiene()
+            newArrayHhItems()
          }
 
      },[products])
@@ -31,10 +31,10 @@ const ShowHygiene=()=>{
      return(
         <Box>
       
-        {hygieneItems.length===0 ?<Box><Text fontSize='lg'>Loading.....</Text></Box>
+        {hhItems.length===0 ?<Box><Text fontSize='lg'>Loading.....</Text></Box>
         :(
             <Grid templateColumns='repeat(3, 1fr)' gap={6}>
-                {hygieneItems.map((item, index) => {
+                {hhItems.map((item, index) => {
                     return (
                     <GridItem key={index}>
                         <Cards 
@@ -57,4 +57,4 @@ const ShowHygiene=()=>{
      )
 
 }
-export default ShowHygiene
+export default ShowHouseHold

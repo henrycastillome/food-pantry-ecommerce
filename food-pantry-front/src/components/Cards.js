@@ -46,7 +46,7 @@ const Cards=({src,product, alt, category, quantity, buttonSolid, buttonGhost})=>
                 <Heading textAlign="center" size="md">
                   {product}
                 </Heading>
-                <Text textAlign="center">{category}</Text>
+                <Text color='gray.500' textAlign="center">{category}</Text>
                 <Wrap justify='center' align='center'><Text fontSize='md' >Qty in stock: </Text>
                     <Text noOfLines={1} textAlign="center" color="teal" fontSize="2xl">
                    {quantity}
