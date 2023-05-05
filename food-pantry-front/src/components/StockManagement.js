@@ -172,7 +172,7 @@ const StockManagement = () => {
           toast.error("Error server:", message);
         }
 
-        // const response = await axios.post("", body);
+        
       } catch (error) {
         console.error("error", error);
       } finally {

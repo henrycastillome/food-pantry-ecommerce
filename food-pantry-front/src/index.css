@@ -2,6 +2,7 @@
   --color-teal:#319795;
   --color-white:#F5F5F5;
   --color-dark:#324B4A;
+  --color-second-dark:#1F3030;
   --color-gray:#95B1AF;
   --color-accent: #BA7589;
   --color-second-accent: #834357
@@ -22,6 +23,17 @@ section{
   background-position: center;
   
 }
+.productPage{
+  width: 100%;
+  height: 40vh;
+  position: relative;
+  display: flex;
+  background-image: linear-gradient(rgba(50, 75, 74, 0.5), rgba(50, 75, 74, 0.5)),url('./images/productsHero.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
 .overlay {
   position: absolute;
   height: 100%;
@@ -33,8 +45,7 @@ section{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  outline: red dashed 2px;
-
+ 
 
 
 }

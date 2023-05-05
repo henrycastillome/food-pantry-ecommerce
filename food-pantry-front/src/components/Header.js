@@ -1,5 +1,5 @@
 import { Box, Button, HStack } from "@chakra-ui/react";
-import logonyc from "../images/logonyc.png";
+import logonycnobg from '../images/nycdoenobg.png'
 
 const Header = () => {
   return (
@@ -10,17 +10,21 @@ const Header = () => {
       justifyContent="center"
       maxWidth="100vw"
       width="100vw"
+      backgroundColor='var(--color-white)'
+      pt={8}
+      pb={4}
     >
       <HStack px={16} gap="30rem">
         <nav>
           <HStack>
-            <img src={logonyc} alt="logonycdoe" />
+            <img src={logonycnobg} alt="logonycdoe" width='150px'/>
           </HStack>
         </nav>
         <nav>
           <HStack spacing={4}>
             <Button bg="transparent">Home</Button>
             <Button bg="transparent">Products</Button>
+            <Button bg="transparent">About</Button>
             <Button variant="solid" colorScheme="teal">
               Sign up
             </Button>

@@ -12,6 +12,7 @@ import InventoryManagement from './pages/InventoryManagement';
 import HomePage from "./pages/HomePage"
 import AdminLogin from './components/AdminLogin';
 import { AuthProvider} from './context/AuthContext';
+import ProductPage from './pages/ProductPage';
 
 function App() {
   
@@ -21,6 +22,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<ProductPage />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/login" element={<Login />} />
           <Route path="/stockmanagement" element={<StockManagement />} />

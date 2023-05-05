@@ -1,6 +1,7 @@
 import Header from "../components/Header"
 import Hero from "../components/Hero"
 import ProductSection from "../components/ProductSection"
+import Footer from "../components/Footer"
 
 const HomePage=()=>{
 
@@ -10,6 +11,7 @@ const HomePage=()=>{
         <Header />
         <Hero />
         <ProductSection />
+        <Footer/>
         </>
     )
 
