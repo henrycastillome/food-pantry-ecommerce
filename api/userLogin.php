@@ -44,7 +44,7 @@ switch ($method) {
         
 
         if ($database_response && password_verify(sanitizeString($data->pass), $database_response['password_user'] )) {
-            $response = ['status' => 1, 'message' => 'success'];
+            $response = ['status' => 1, 'message' => 'success', "user_name"=>$database_response['user_name'], "user_id"=>$database_response['user_id']];
         } else {
             $response = ['status' => 0, 'message' => 'email or password not found'];
         }

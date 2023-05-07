@@ -27,19 +27,21 @@ switch ($method) {
     case "POST":
         $rawData = file_get_contents('php://input');
         $data = json_decode($rawData);
-        $stmt = $pdo->prepare('INSERT INTO user (user_name, user_lname, user_email,password_user, user_phone, stu_id)
+        $stmt = $pdo->prepare('INSERT INTO user (user_name, user_lname, user_email,password_user, user_phone, student_id)
            VALUES (:firstName, :lastName, :email, :pass, :phoneNumber, :studentId)');
 
         $firstName=sanitizeString($data->firstName);
         $lastName=sanitizeString($data->lastName);
         $email=sanitizeString($data->email);
+        $pass=password_hash(sanitizeString($data->pass), PASSWORD_DEFAULT);
+        $phone= sanitizeString($data->phoneNumber);
         $studentId=sanitizeString($data->studentId);
 
         $stmt->bindParam(':firstName', $firstName);
         $stmt->bindParam(':lastName', $lastName);
         $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':pass', password_hash(sanitizeString($data->pass), PASSWORD_DEFAULT));
-        $stmt->bindParam(':phoneNumber', sanitizeString($data->phoneNumber));
+        $stmt->bindParam(':pass', $pass);
+        $stmt->bindParam(':phoneNumber', $phone);
         $stmt->bindParam(':studentId', $studentId);
 
         if($stmt->execute()) {

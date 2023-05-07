@@ -21,6 +21,7 @@ section{
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  padding-top: 50rem;
   
 }
 .productPage{
@@ -29,6 +30,19 @@ section{
   position: relative;
   display: flex;
   background-image: linear-gradient(rgba(50, 75, 74, 0.5), rgba(50, 75, 74, 0.5)),url('./images/productsHero.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  
+
+
+}
+.aboutPage{
+  width: 100%;
+  height: 40vh;
+  position: relative;
+  display: flex;
+  background-image: linear-gradient(rgba(50, 75, 74, 0.5), rgba(50, 75, 74, 0.5)),url('./images/aboutpage.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -49,5 +63,39 @@ section{
 
 
 }
+
+.cart-count {
+  position: absolute;
+  top:-10px;
+  right: -10px;
+  background-color: red;
+  color: var(--color-white);
+  border-radius: 50%;
+  font-size: 0.75rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loader{
+
+  border: 4px solid rgba(0, 0, 0, 0.1);
+ 
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border-left-color: var(--color-second-dark); 
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FullScreenSection from "./FullScreenSection";
 import {
   Box,
@@ -9,8 +9,6 @@ import {
   Input,
   VStack,
   Button,
-  Spinner,
-  HStack,
   InputRightElement,
   InputGroup,
 } from "@chakra-ui/react";
@@ -18,12 +16,26 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import Header from "./Header";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
+import Loader from "./Loader";
 
 const Login = () => {
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { setCustomer, setIsCustomerValid}=useAuthContext()
+  const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoadingPage(false);
+    }, 2000);
+  }, []);
+
   const isFormValid = () => !formik.dirty || !formik.isValid;
   const handleClick = () => setShow(!show);
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -41,7 +53,15 @@ const Login = () => {
         const validUser = await response.data["status"];
         console.log(validUser);
         if (validUser === 1) {
+          const newCustomer=response.data
+          console.log('this is the new', newCustomer)
+          setCustomer(newCustomer)
+          setIsCustomerValid(true)
+
           toast.success(`${values.email} You have been logged in successfully`);
+          setTimeout(()=>{
+            navigate("/")
+          }, 5000)
         } else {
           toast.error("Invalid email or password");
         }
@@ -62,16 +82,38 @@ const Login = () => {
 
   
   return (
+    <main>
+    {isLoadingPage ? (
+      <Loader />
+    ) : (
+    <>
+    <Header />
+    <Box pt={32} >
+        <Box className="productPage">
+          <Box className="overlay">
+            <Box
+              width="50%"
+              py={16}
+              gap={4}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              bg="rgba(50, 75, 74, 0.85)"
+            >
+              <Heading as="h1" fontSize="6xl">
+               Welcome back!
+              </Heading>
+            </Box>
+          </Box>
+        </Box>
+        </Box>
     <FullScreenSection
-      backgroundColor="white"
-      alignItems=""
-      spacing={8}
-      width="50vw"
-      pr={{ base: 8, md: 32 }}
-      pl={{ base: 8, md: 32 }}
-      pt={{ base: 8, md: 32 }}
-      pb={{ base: 32, md: 32 }}
+      pt={16}
+      pb={16}
+      width="100vw"
+      backgroundColor="var(--color-white)"
     >
+      <Box width='50vw'>
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -109,9 +151,8 @@ const Login = () => {
                   id="email"
                   name="email"
                   type="email"
-                  borderColor="teal"
-                  borderWidth="2px"
-                  focusBorderColor=""
+                  borderColor='var(--color-teal)'
+                  focusBorderColor="teal.500"
                   {...formik.getFieldProps("email")}
                 />
                 <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
@@ -128,9 +169,8 @@ const Login = () => {
                     id="pass"
                     name="pass"
                     type={show ? "text" : "password"}
-                    borderColor="teal"
-                    borderWidth="2px"
-                    focusBorderColor=""
+                    borderColor='var(--color-teal)'
+                  focusBorderColor="teal.500"
                     {...formik.getFieldProps("pass")}
                   />
                   <InputRightElement width="4.5rem">
@@ -158,7 +198,10 @@ const Login = () => {
           </form>
         </Box>
       </VStack>
+      </Box>
     </FullScreenSection>
+    </>)}
+    </main>
   );
 };
 

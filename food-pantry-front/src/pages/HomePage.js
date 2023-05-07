@@ -1,24 +1,36 @@
-import Header from "../components/Header"
-import Hero from "../components/Hero"
-import ProductSection from "../components/ProductSection"
-import Footer from "../components/Footer"
+import Header from "../components/Header";
+import Hero from "../components/Hero";
+import ProductSection from "../components/ProductSection";
+import Footer from "../components/Footer";
+import { useEffect, useState } from "react";
+import Loader from "../components/Loader";
+import { useAuthContext } from "../context/AuthContext";
 
-const HomePage=()=>{
+const HomePage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  
 
-    return(
+  useEffect(()=>{
+    setTimeout(() => {
+        setIsLoading(false);
+      }, 1500);
+
+  },[]) 
+
+  return (
+    <main>
+      {isLoading ? (
+        <Loader />
+      ) : (
         <>
-
-        <Header />
-        <Hero />
-        <ProductSection />
-        <Footer/>
+          <Header isHomePage />
+          <Hero />
+          <ProductSection />
+          <Footer />
         </>
-    )
+      )}
+    </main>
+  );
+};
 
-
-
-
-
-}
-
-export default HomePage
+export default HomePage;

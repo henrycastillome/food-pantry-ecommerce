@@ -13,16 +13,20 @@ import HomePage from "./pages/HomePage"
 import AdminLogin from './components/AdminLogin';
 import { AuthProvider} from './context/AuthContext';
 import ProductPage from './pages/ProductPage';
+import AboutPage from './pages/AboutPage';
+import { NewProvider } from './context/NewOrder';
 
 function App() {
   
   return (
     <ChakraProvider>
       <AuthProvider>
+        <NewProvider>
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ProductPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/login" element={<Login />} />
           <Route path="/stockmanagement" element={<StockManagement />} />
@@ -39,6 +43,7 @@ function App() {
 
 
       </main>
+      </NewProvider>
       </AuthProvider>
     </ChakraProvider>
   );

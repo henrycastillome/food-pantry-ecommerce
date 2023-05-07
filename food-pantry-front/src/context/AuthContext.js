@@ -1,49 +1,89 @@
-import {createContext, useContext, useState,useEffect} from 'react'
+import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 
+const AuthContext = createContext(undefined);
 
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? storedUser : null;
+  });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-const AuthContext=createContext(undefined);
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", user);
+      setIsAuthenticated(true);
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [user]);
 
-export const AuthProvider=({children})=>{
+  const [isCustomerValid, setIsCustomerValid]=useState(false)
+  const [customer, setCustomer]=useState(()=>{
+    const storedCustomer=localStorage.getItem('customer');
+    return storedCustomer ? JSON.parse(storedCustomer) : []
+  })
 
-    const [user, setUser]=useState(()=>{
-        const storedUser=localStorage.getItem('user');
-        return storedUser? storedUser : null
-    })
-    const [isAuthenticated, setIsAuthenticated]=useState(false)
+  useEffect(()=>{
+    if(customer){
+      localStorage.setItem('customer', JSON.stringify(customer))
+      setIsCustomerValid(true)
+    } else{
+      localStorage.removeItem("customer")
+    }
+  }, [customer])
 
-    useEffect(()=>{
-        if(user){
-            localStorage.setItem('user', user)
-            setIsAuthenticated(true)
-        } else{
-            localStorage.removeItem('user')
-        }
-    }, [user])
+  console.log(customer)
+  console.log(isCustomerValid)
 
-    const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
 
-    useEffect(() => {
-        getProducts();
-      }, []);
-    
-      function getProducts() {
-        axios
-          .get("http://localhost/my_php/food-pantry-ecommerce/api/inventory.php")
-          .then(function (response) {
-            console.log(response.data);
-            setProducts(response.data);
-          });
-      }
+  useEffect(() => {
+    getProducts();
+  }, []);
 
-   
+  function getProducts() {
+    axios
+      .get("http://localhost/my_php/food-pantry-ecommerce/api/inventory.php")
+      .then(function (response) {
+        console.log(response.data);
+        setProducts(response.data);
+      });
+  }
 
-    return (
-        <AuthContext.Provider value={{user, setUser, isAuthenticated, setIsAuthenticated, products, setProducts,getProducts}}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
+  const handleClick = (anchor) => () => {
+    const id = `${anchor}-section`;
+    const element = document.getElementById(id);
 
-export const useAuthContext=()=>useContext(AuthContext)
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        setUser,
+        isAuthenticated,
+        setIsAuthenticated,
+        products,
+        setProducts,
+        getProducts,
+        handleClick,
+        customer, 
+        setCustomer,
+        isCustomerValid,
+        setIsCustomerValid
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuthContext = () => useContext(AuthContext);

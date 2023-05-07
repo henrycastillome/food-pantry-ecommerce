@@ -1,10 +1,14 @@
 import { Box, Button, Heading, Text } from "@chakra-ui/react";
 import FullScreenSection from "./FullScreenSection";
+import { useAuthContext } from "../context/AuthContext";
 
 const Hero = () => {
+  const {handleClick}=useAuthContext()
+
   return (
     <section>
-      <FullScreenSection>
+      <FullScreenSection
+        >
         <Box className="hero">
           <Box className="overlay">
             <Box
@@ -26,7 +30,7 @@ const Hero = () => {
                   for your support!
                 </Text>
               </Box>
-              <Button colorScheme="teal"> See products</Button>
+              <Button colorScheme="teal" onClick={handleClick('product')}> See products</Button>
             </Box>
           </Box>
         </Box>

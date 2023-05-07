@@ -1,9 +1,17 @@
 import { useAuthContext } from "../context/AuthContext";
 import { Heading, Box, Text, Grid, GridItem, Button, HStack, ButtonGroup, Card } from "@chakra-ui/react";
 import Cards from "../components/Cards"
+import { useNewOrderContext } from "../context/NewOrder";
 
 const ShowAll=()=>{
      const{ products }=useAuthContext()
+     const {
+  
+        addingItems,
+        handleAddToCart,
+    
+      
+      } = useNewOrderContext();
 
      return(
         <Box>
@@ -19,7 +27,9 @@ const ShowAll=()=>{
                             src={decodeURIComponent(item.item_image)}
                              product={item.item_name}
                             category={item.item_category}
-                        quantity={item.item_quantity}
+                            quantity={item.item_quantity}
+                            button2={addingItems[index] ? "Adding" : "Add to cart"}
+                            onClick={() => handleAddToCart(item, index)}
 
 
                         />

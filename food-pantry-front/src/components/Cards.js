@@ -23,8 +23,13 @@ import {
     Divider,
     Wrap,
   } from "@chakra-ui/react";
+import { useNewOrderContext } from "../context/NewOrder";
+import { useAuthContext } from "../context/AuthContext";
 
-const Cards=({src,product, alt, category, quantity, buttonSolid, buttonGhost})=>{
+const Cards=({src,product, alt, category, quantity, onClick,onClickButtonTwo, button2})=>{
+    
+
+
     return(
 
         <Card boxShadow='rgba(0, 0, 0, 0.35) 0px 5px 15px;'>
@@ -55,12 +60,10 @@ const Cards=({src,product, alt, category, quantity, buttonSolid, buttonGhost})=>
             </CardBody>
             
             <CardFooter justify='center'>
-              <ButtonGroup spacing="2">
-                <Button variant="solid" colorScheme="teal">
-                  Order Now
-                </Button>
-                <Button variant="ghost" colorScheme="teal">
-                  Add to cart
+              <ButtonGroup >
+                
+                <Button onClick={onClick} variant="solid" colorScheme="teal">
+                  {button2}
                 </Button>
               </ButtonGroup>
             </CardFooter>
