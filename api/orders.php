@@ -46,7 +46,7 @@ switch ($method) {
             $quantity=$item['quantity'];
         
 
-        $stmt = $pdo->prepare("INSERT INTO order_items (orders_id, item_id, quantity) VALUES (:order_id, :item_id, :quantity)");
+        $stmt = $pdo->prepare("INSERT INTO orders_items (orders_id, item_id, quantity) VALUES (:order_id, :item_id, :quantity)");
 
         $stmt->bindParam(':order_id', $order_id);
         $stmt->bindParam(':item_id', $item_id);

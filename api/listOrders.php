@@ -39,7 +39,7 @@ switch ($method) {
             FROM
                 orders o
             JOIN
-                order_items oi ON o.orders_id = oi.orders_id
+                orders_items oi ON o.orders_id = oi.orders_id
             JOIN
                 items i ON oi.item_id = i.item_id
             JOIN
