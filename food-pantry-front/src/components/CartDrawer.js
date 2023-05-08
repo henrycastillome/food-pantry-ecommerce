@@ -18,7 +18,7 @@ import {
   HStack,
   Spinner
 } from "@chakra-ui/react";
-import {  useEffect, useRef, useState, useMemo } from "react";
+import {  useRef, useState, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useNewOrderContext } from "../context/NewOrder";
@@ -55,26 +55,17 @@ const CartDrawer = () => {
     return {user_id:Number(customer?.user_id)}
  },[customer])
 
-
- const [orderSubmit, setOrderSubmit]=useState({
+ const orderSubmit = useMemo(() => {
+  return {
     ...customerSubmit,
-    items:countArray.map(item=>({
-    item_id:Number(item.id),
-    quantity:Number(item.total),
-    })
-    )
-  })
+    items: countArray.map(item => ({
+      item_id: Number(item.id),
+      quantity: Number(item.total),
+    })),
+  };
+}, [customerSubmit, countArray]);
 
-  useEffect(()=>{
-    setOrderSubmit({
-      ...customerSubmit,
-      items:countArray.map(item=>({
-        item_id:Number(item.id),
-        quantity:Number(item.total),
-        })
-        )
-    })
-  },[customerSubmit, countArray])
+  
 
 
 
