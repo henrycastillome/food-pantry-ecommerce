@@ -7,8 +7,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? storedUser : null;
-  });
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  }); 
+  const [isAuthenticated, setIsAuthenticated] = useState(!!user);
 
   useEffect(() => {
     if (user) {
@@ -19,10 +19,11 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user]);
 
+  console.log("isAuthenticated", isAuthenticated)
   const [isCustomerValid, setIsCustomerValid]=useState(false)
   const [customer, setCustomer]=useState(()=>{
     const storedCustomer=localStorage.getItem('customer');
-    return storedCustomer ? JSON.parse(storedCustomer) : []
+    return storedCustomer ? JSON.parse(storedCustomer) : null
   })
 
   useEffect(()=>{
@@ -31,6 +32,8 @@ export const AuthProvider = ({ children }) => {
       setIsCustomerValid(true)
     } else{
       localStorage.removeItem("customer")
+
+      setIsCustomerValid(false)
     }
   }, [customer])
 
@@ -45,7 +48,7 @@ export const AuthProvider = ({ children }) => {
 
   function getProducts() {
     axios
-      .get("http://localhost/my_php/food-pantry-ecommerce/api/inventory.php")
+      .get("https://food-pantry.herokuapp.com/inventory.php")
       .then(function (response) {
         console.log(response.data);
         setProducts(response.data);

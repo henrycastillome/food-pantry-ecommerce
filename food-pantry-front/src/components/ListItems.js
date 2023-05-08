@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
-  Heading,
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
@@ -21,7 +19,7 @@ import axios from "axios";
 import AWS from "aws-sdk";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import { useAuthContext } from "../context/AuthContext";
 
 AWS.config.update({
@@ -50,7 +48,7 @@ const ListItems = () => {
     setIsSaving(true);
     axios
       .put(
-        ` http://localhost/my_php/food-pantry-ecommerce/api/products.php/${id}/put`,
+        ` https://food-pantry.herokuapp.com/products.php/${id}/put`,
         editValue
       )
       .then(function (response) {
@@ -78,7 +76,7 @@ const ListItems = () => {
     console.log(isDeleting);
     axios
       .delete(
-        ` http://localhost/my_php/food-pantry-ecommerce/api/products.php/${id}/delete`
+        `https://food-pantry.herokuapp.com/products.php/${id}/delete`
       )
       .then(function (response) {
         console.log(response.data);
@@ -91,29 +89,10 @@ const ListItems = () => {
     return <FullScreenSection> Loading.....</FullScreenSection>;
 
   return (
-    <FullScreenSection
-      backgroundColor="white"
-      alignItems=""
-      spacing={8}
-      width="90vw"
-      pr={{ base: 8, md: 32 }}
-      pl={{ base: 8, md: 32 }}
-      pt={{ base: 8, md: 32 }}
-      pb={{ base: 32, md: 32 }}
-    >
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      <Heading as="h1"> List of Items </Heading>
+    <>
+   
+     
+     
 
       <TableContainer>
         <Table variant="simple">
@@ -193,7 +172,7 @@ const ListItems = () => {
           </Tbody>
         </Table>
       </TableContainer>
-    </FullScreenSection>
+    </>
   );
 };
 

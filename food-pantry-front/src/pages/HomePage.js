@@ -4,18 +4,16 @@ import ProductSection from "../components/ProductSection";
 import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
-import { useAuthContext } from "../context/AuthContext";
+import { ToastContainer } from "react-toastify";
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true);
-  
 
-  useEffect(()=>{
+  useEffect(() => {
     setTimeout(() => {
-        setIsLoading(false);
-      }, 1500);
-
-  },[]) 
+      setIsLoading(false);
+    }, 1500);
+  }, []);
 
   return (
     <main>
@@ -23,6 +21,18 @@ const HomePage = () => {
         <Loader />
       ) : (
         <>
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           <Header isHomePage />
           <Hero />
           <ProductSection />

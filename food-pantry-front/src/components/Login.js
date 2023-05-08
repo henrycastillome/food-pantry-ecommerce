@@ -46,7 +46,7 @@ const Login = () => {
       try {
         const body = JSON.stringify(values);
         const response = await axios.post(
-          "http://localhost/my_php/food-pantry-ecommerce/api/userLogin.php",
+          "https://food-pantry.herokuapp.com/userLogin.php",
           body
         );
         console.log(response.data);
@@ -127,7 +127,7 @@ const Login = () => {
         theme="light"
       />
 
-      <Heading as="h1">Login</Heading>
+      <Heading as="h1" color='var(--color-dark)'>Login</Heading>
 
       <VStack w="100%" alignItems="start" justifyContent="flex-start">
         <Box p={6} rounded="md" w="100%">

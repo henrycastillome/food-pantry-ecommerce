@@ -6,12 +6,6 @@ import {
   Heading,
   Box,
   Text,
-  Grid,
-  GridItem,
-  Button,
-  HStack,
-  ButtonGroup,
-  Card,
   Container,
 } from "@chakra-ui/react";
 import Loader from "../components/Loader";

@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {
-  Heading,
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
   TableCaption,
   TableContainer,
+  Box
 } from "@chakra-ui/react";
-import FullScreenSection from "./FullScreenSection";
 import axios from "axios";
 import { SearchBar } from "./SearchBar";
 
@@ -27,7 +25,7 @@ const ListUsers = () => {
 
   function getUsers() {
     axios
-      .get("http://localhost/my_php/food-pantry-ecommerce/api/users.php")
+      .get("https://food-pantry.herokuapp.com/users.php")
       .then(function (response) {
         console.log(response.data);
         setUsers(response.data);
@@ -51,21 +49,14 @@ const ListUsers = () => {
   };
 
   return (
-    <FullScreenSection
-      backgroundColor="white"
-      alignItems=""
-      spacing={8}
-      width="100vw"
-      pr={{ base: 8, md: 32 }}
-      pl={{ base: 8, md: 32 }}
-      pt={{ base: 8, md: 32 }}
-      pb={{ base: 32, md: 32 }}
-    >
-      <Heading as="h1"> List of Users </Heading>
+ <>
+     <Box pb={4} pt={4}> 
       <SearchBar
         onChange={(e) => setElementSearch(e.target.value)}
         onClick={handleSearch}
+        
       />
+      </Box>
 
       <TableContainer>
         <Table variant="simple">
@@ -90,7 +81,7 @@ const ListUsers = () => {
                   <Td>{user.user_lname}</Td>
                   <Td>{user.user_email}</Td>
                   <Td>{user.user_phone}</Td>
-                  <Td>{user.stu_id}</Td>
+                  <Td>{user.student_id}</Td>
                 </Tr>
               ))}
             </Tbody>
@@ -103,14 +94,14 @@ const ListUsers = () => {
                   <Td>{user.user_lname}</Td>
                   <Td>{user.user_email}</Td>
                   <Td>{user.user_phone}</Td>
-                  <Td>{user.stu_id}</Td>
+                  <Td>{user.student_id}</Td>
                 </Tr>
               ))}
             </Tbody>
           )}
         </Table>
       </TableContainer>
-    </FullScreenSection>
+      </>
   );
 };
 

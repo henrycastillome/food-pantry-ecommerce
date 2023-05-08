@@ -29,7 +29,7 @@ switch ($method) {
    case "GET":
        
        try{
-        $stmt = $pdo->prepare("SELECT user_id, user_name, user_lname, user_email, user_phone, stu_id FROM user");
+        $stmt = $pdo->prepare("SELECT user_id, user_name, user_lname, user_email, user_phone, student_id FROM user");
         $stmt->execute();
         $allProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($allProducts);

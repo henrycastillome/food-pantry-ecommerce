@@ -1,33 +1,21 @@
 import React, { useState } from "react";
-import FullScreenSection from "./FullScreenSection";
 import {
   Box,
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Heading,
   Input,
   VStack,
   Button,
-  Spinner,
   HStack,
-  InputRightElement,
-  InputGroup,
   Select,
-  CardFooter,
-  Card,
-  CardBody,
-  Image,
-  Stack,
-  Text,
-  ButtonGroup,
 } from "@chakra-ui/react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
-// import { S3 } from "aws-sdk";
 import { ToastContainer, toast } from "react-toastify";
 import AWS from "aws-sdk";
+import Cards from "./Cards";
 
 AWS.config.update({
   region: process.env.REACT_APP_AWS_REGION,
@@ -157,7 +145,7 @@ const StockManagement = () => {
 
         const body = JSON.stringify(requestBody);
         const responses = await axios.post(
-          "http://localhost/my_php/food-pantry-ecommerce/api/products.php",
+          "https://food-pantry.herokuapp.com/products.php",
           body
         );
         console.log(responses);
@@ -200,17 +188,9 @@ const StockManagement = () => {
     }),
   });
   return (
-    <FullScreenSection
-      backgroundColor="white"
-      alignItems=""
-      spacing={8}
-      width="80vw"
-      pr={{ base: 8, md: 32 }}
-      pl={{ base: 8, md: 32 }}
-      pt={{ base: 8, md: 32 }}
-      pb={{ base: 32, md: 32 }}
-    >
-      <ToastContainer
+    
+     <>
+       <ToastContainer
         position="top-center"
         autoClose={5000}
         hideProgressBar={false}
@@ -222,7 +202,7 @@ const StockManagement = () => {
         pauseOnHover
         theme="light"
       />
-      <Heading as="h1">Stock Management</Heading>
+      
       <HStack gap={4}>
         <VStack w="100%" alignItems="start" justifyContent="flex-start">
           <Box p={6} rounded="md" w="100%">
@@ -251,7 +231,8 @@ const StockManagement = () => {
                     name="category"
                     colorScheme="teal"
                     variant="outline"
-                    borderColor="teal"
+                    borderColor='var(--color-teal)'
+                    focusBorderColor="teal.500"
                     {...formik.getFieldProps("category")}
                   >
                     <option value="Hygiene">Hygiene</option>
@@ -273,8 +254,8 @@ const StockManagement = () => {
                     id="productName"
                     name="productName"
                     type="text"
-                    borderColor="teal"
-                    borderWidth="2px"
+                    borderColor='var(--color-teal)'
+                    focusBorderColor="teal.500"
                     {...formik.getFieldProps("productName")}
                   />
                   <FormErrorMessage>
@@ -294,8 +275,8 @@ const StockManagement = () => {
                     id="quantity"
                     name="quantity"
                     type="number"
-                    borderColor="teal"
-                    borderWidth="2px"
+                    borderColor='var(--color-teal)'
+                    focusBorderColor="teal.500"
                     {...formik.getFieldProps("quantity")}
                   />
                   <FormErrorMessage>{formik.errors.quantity}</FormErrorMessage>
@@ -334,45 +315,18 @@ const StockManagement = () => {
           </Box>
         </VStack>
         <VStack>
-          <Card>
-            <CardBody>
-              {imagePreview ? (
-                <Image
-                  src={imagePreview}
-                  alt="Green double couch with wooden legs"
-                  borderRadius="lg"
-                />
-              ) : (
-                <Image
-                  src="https://placehold.jp/300x300.png"
-                  alt="placeholder"
-                  borderRadius="lg"
-                />
-              )}
-              <Stack mt="6" spacing="3">
-                <Heading textAlign="center" size="md">
-                  {formik.values.productName}
-                </Heading>
-                <Text textAlign="center">{formik.values.category}</Text>
-                <Text textAlign="center" color="teal" fontSize="2xl">
-                  Qty in stock: {formik.values.quantity}
-                </Text>
-              </Stack>
-            </CardBody>
-            <CardFooter>
-              <ButtonGroup spacing="2">
-                <Button variant="solid" colorScheme="teal">
-                  Order now
-                </Button>
-                <Button variant="ghost" colorScheme="teal">
-                  Add to cart
-                </Button>
-              </ButtonGroup>
-            </CardFooter>
-          </Card>
+          <Cards 
+            src={imagePreview}
+            product={formik.values.productName}
+            category={formik.values.category}
+            quantity={formik.values.quantity}
+            button2="Add to Cart"
+            />
+            
         </VStack>
       </HStack>
-    </FullScreenSection>
+    
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState} from "react";
 import FullScreenSection from "./FullScreenSection";
 import {
   Box,
@@ -9,18 +9,16 @@ import {
   Input,
   VStack,
   Button,
-  Spinner,
-  HStack,
   InputRightElement,
   InputGroup,
-  Text,
+ 
 } from "@chakra-ui/react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
+import Header from "./Header";
 import { useAuthContext } from "../context/AuthContext";
 
 const AdminLogin = () => {
@@ -29,7 +27,7 @@ const AdminLogin = () => {
   const isFormValid = () => !formik.dirty || !formik.isValid;
   const handleClick = () => setShow(!show);
   const navigate = useNavigate();
-  const { user, setUser, isAuthenticated, setIsAuthenticated } =
+  const {  setUser,  setIsAuthenticated } =
     useAuthContext();
 
   const formik = useFormik({
@@ -43,7 +41,7 @@ const AdminLogin = () => {
         const body = JSON.stringify(values);
 
         const response = await axios.post(
-          "http://localhost/my_php/food-pantry-ecommerce/api/adminLogin.php",
+          "https://food-pantry.herokuapp.com/adminLogin.php",
           body
         );
         console.log(response.data);
@@ -77,31 +75,39 @@ const AdminLogin = () => {
   });
 
   return (
-    <FullScreenSection
-      backgroundColor="white"
-      alignItems=""
-      spacing={8}
-      width="50vw"
-      pr={{ base: 8, md: 32 }}
-      pl={{ base: 8, md: 32 }}
-      pt={{ base: 8, md: 32 }}
-      pb={{ base: 32, md: 32 }}
-    >
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+    <>
+    <Header />
+    <Box pt={32} >
+        <Box className="productPage">
+          <Box className="overlay">
+            <Box
+              width="50%"
+              py={16}
+              gap={4}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              bg="rgba(50, 75, 74, 0.85)"
+            >
+              <Heading as="h1" fontSize="6xl">
+               Hello Admin!
+              </Heading>
+            </Box>
+          </Box>
+        </Box>
+        </Box>
 
-      <Heading as="h1">Admin Login</Heading>
-      {isAuthenticated && <Text> You are logged in as {user}</Text>}
+    <FullScreenSection
+       pt={16}
+      pb={16}
+      width="100vw"
+      backgroundColor="var(--color-white)"
+    >
+      <Box width='50vw'>
+   
+
+      <Heading as="h1" color='var(--color-dark)'>Admin Login</Heading>
+      
 
       <VStack w="100%" alignItems="start" justifyContent="flex-start">
         <Box p={6} rounded="md" w="100%">
@@ -125,9 +131,8 @@ const AdminLogin = () => {
                   id="email"
                   name="email"
                   type="email"
-                  borderColor="teal"
-                  borderWidth="2px"
-                  focusBorderColor=""
+                  borderColor='var(--color-teal)'
+                  focusBorderColor="teal.500"
                   {...formik.getFieldProps("email")}
                 />
                 <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
@@ -144,9 +149,8 @@ const AdminLogin = () => {
                     id="pass"
                     name="pass"
                     type={show ? "text" : "password"}
-                    borderColor="teal"
-                    borderWidth="2px"
-                    focusBorderColor=""
+                    borderColor='var(--color-teal)'
+                  focusBorderColor="teal.500"
                     {...formik.getFieldProps("pass")}
                   />
                   <InputRightElement width="4.5rem">
@@ -174,7 +178,9 @@ const AdminLogin = () => {
           </form>
         </Box>
       </VStack>
+      </Box>
     </FullScreenSection>
+    </>
   );
 };
 

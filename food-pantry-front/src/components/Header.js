@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const Header = ({ isHomePage }) => {
-  const { handleClick, customer, isCustomerValid, setCustomer,setIsCustomerValid } = useAuthContext();
+  const { handleClick, customer, isCustomerValid, setCustomer,setIsCustomerValid, isAuthenticated } = useAuthContext();
   const [isLoading, setIsLoading]=useState(false)
   const navigate=useNavigate();
   const handleLogout=()=>{
@@ -16,7 +16,9 @@ const Header = ({ isHomePage }) => {
     setTimeout(()=>{
       setCustomer(null)
       setIsCustomerValid(false)
+     
     }, 3000)
+    
     
     setTimeout(()=>{
       setIsLoading(false)
@@ -73,7 +75,7 @@ const Header = ({ isHomePage }) => {
               <>
               <Text fontSize="sm"  color="var(--color-dark)">
                 {" "}
-                You are logged in as <b>{customer.user_name} </b>{" "}
+                Logged in as <b>{customer?.user_name} </b>{" "}
               </Text>
               { isLoading? (<Spinner />) :
               (
@@ -95,10 +97,12 @@ const Header = ({ isHomePage }) => {
                     Login
                   </Button>
                 </Link>
+                <Link to={isAuthenticated ? "/admin" : "/inventory"}>
                 <Button fontSize="sm" as="u" variant="link" colorScheme="teal">
                   {" "}
                   Admin
                 </Button>
+                </Link>
               </>
             )}
           </HStack>
