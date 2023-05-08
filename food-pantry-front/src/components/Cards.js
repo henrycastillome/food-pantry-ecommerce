@@ -1,17 +1,6 @@
 import {
-    Box,
-    FormControl,
-    FormErrorMessage,
-    FormLabel,
     Heading,
-    Input,
-    VStack,
     Button,
-    Spinner,
-    HStack,
-    InputRightElement,
-    InputGroup,
-    Select,
     CardFooter,
     Card,
     CardBody,
@@ -19,14 +8,11 @@ import {
     Stack,
     Text,
     ButtonGroup,
-    Container,
-    Divider,
     Wrap,
   } from "@chakra-ui/react";
-import { useNewOrderContext } from "../context/NewOrder";
-import { useAuthContext } from "../context/AuthContext";
 
-const Cards=({src,product, alt, category, quantity, onClick,onClickButtonTwo, button2})=>{
+
+const Cards=({src,product, alt, category, quantity, onClick, button2})=>{
     
 
 

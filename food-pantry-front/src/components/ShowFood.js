@@ -1,14 +1,9 @@
 import { useAuthContext } from "../context/AuthContext";
 import {
-  Heading,
   Box,
   Text,
   Grid,
   GridItem,
-  Button,
-  HStack,
-  ButtonGroup,
-  Card,
 } from "@chakra-ui/react";
 import Cards from "../components/Cards";
 import { useEffect, useState } from "react";

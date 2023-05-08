@@ -5,16 +5,11 @@ import Header from "../components/Header";
 import {
   Heading,
   Box,
-  Text,
-  Grid,
-  GridItem,
   Button,
   HStack,
   ButtonGroup,
-  Card,
+
 } from "@chakra-ui/react";
-import { useAuthContext } from "../context/AuthContext";
-import Cards from "../components/Cards";
 import ShowAll from "../components/ShowAll";
 import ShowHygiene from "../components/ShowHygiene";
 import ShowFood from "../components/ShowFood";
