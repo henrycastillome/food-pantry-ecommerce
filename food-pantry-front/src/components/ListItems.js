@@ -19,7 +19,7 @@ import axios from "axios";
 import AWS from "aws-sdk";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  toast } from "react-toastify";
+import {  toast, ToastContainer } from "react-toastify";
 import { useAuthContext } from "../context/AuthContext";
 
 AWS.config.update({
@@ -90,11 +90,23 @@ const ListItems = () => {
 
   return (
     <>
-   
+    
      
      
 
       <TableContainer>
+      <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
         <Table variant="simple">
           <TableCaption> All products</TableCaption>
 

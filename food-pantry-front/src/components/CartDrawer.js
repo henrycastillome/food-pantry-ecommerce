@@ -25,7 +25,7 @@ import { useNewOrderContext } from "../context/NewOrder";
 import { useAuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CartDrawer = () => {
@@ -131,6 +131,18 @@ setIsLoading(false)
      
 
       <Drawer size='sm' isOpen={isOpen} placement="right" onClose={onClose}>
+      <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />

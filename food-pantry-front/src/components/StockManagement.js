@@ -159,8 +159,6 @@ const StockManagement = () => {
         } else {
           toast.error("Error server:", message);
         }
-
-        
       } catch (error) {
         console.error("error", error);
       } finally {
@@ -188,21 +186,7 @@ const StockManagement = () => {
     }),
   });
   return (
-    
-     <>
-       <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      
+    <>
       <HStack gap={4}>
         <VStack w="100%" alignItems="start" justifyContent="flex-start">
           <Box p={6} rounded="md" w="100%">
@@ -210,11 +194,23 @@ const StockManagement = () => {
               onSubmit={(e) => {
                 e.preventDefault();
                 formik.handleSubmit();
-                setImagePreview(null)
+                setImagePreview(null);
               }}
               method="post"
               name="contact"
             >
+              <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+              />
               <input type="hidden" name="contact" value="contact" />
               <VStack spacing={4}>
                 <FormControl
@@ -231,7 +227,7 @@ const StockManagement = () => {
                     name="category"
                     colorScheme="teal"
                     variant="outline"
-                    borderColor='var(--color-teal)'
+                    borderColor="var(--color-teal)"
                     focusBorderColor="teal.500"
                     {...formik.getFieldProps("category")}
                   >
@@ -254,7 +250,7 @@ const StockManagement = () => {
                     id="productName"
                     name="productName"
                     type="text"
-                    borderColor='var(--color-teal)'
+                    borderColor="var(--color-teal)"
                     focusBorderColor="teal.500"
                     {...formik.getFieldProps("productName")}
                   />
@@ -275,7 +271,7 @@ const StockManagement = () => {
                     id="quantity"
                     name="quantity"
                     type="number"
-                    borderColor='var(--color-teal)'
+                    borderColor="var(--color-teal)"
                     focusBorderColor="teal.500"
                     {...formik.getFieldProps("quantity")}
                   />
@@ -315,17 +311,15 @@ const StockManagement = () => {
           </Box>
         </VStack>
         <VStack>
-          <Cards 
+          <Cards
             src={imagePreview}
             product={formik.values.productName}
             category={formik.values.category}
             quantity={formik.values.quantity}
             button2="Add to Cart"
-            />
-            
+          />
         </VStack>
       </HStack>
-    
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import FullScreenSection from "./FullScreenSection";
 import {
   Box,
@@ -11,12 +11,11 @@ import {
   Button,
   InputRightElement,
   InputGroup,
- 
 } from "@chakra-ui/react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
-import {  toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import { useAuthContext } from "../context/AuthContext";
@@ -27,8 +26,7 @@ const AdminLogin = () => {
   const isFormValid = () => !formik.dirty || !formik.isValid;
   const handleClick = () => setShow(!show);
   const navigate = useNavigate();
-  const {  setUser,  setIsAuthenticated } =
-    useAuthContext();
+  const { setUser, setIsAuthenticated } = useAuthContext();
 
   const formik = useFormik({
     initialValues: {
@@ -76,8 +74,8 @@ const AdminLogin = () => {
 
   return (
     <>
-    <Header />
-    <Box pt={32} >
+      <Header />
+      <Box pt={32}>
         <Box className="productPage">
           <Box className="overlay">
             <Box
@@ -89,97 +87,108 @@ const AdminLogin = () => {
               alignItems="center"
               bg="rgba(50, 75, 74, 0.85)"
             >
+              <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+              />
               <Heading as="h1" fontSize="6xl">
-               Hello Admin!
+                Hello Admin!
               </Heading>
             </Box>
           </Box>
         </Box>
-        </Box>
-
-    <FullScreenSection
-       pt={16}
-      pb={16}
-      width="100vw"
-      backgroundColor="var(--color-white)"
-    >
-      <Box width='50vw'>
-   
-
-      <Heading as="h1" color='var(--color-dark)'>Admin Login</Heading>
-      
-
-      <VStack w="100%" alignItems="start" justifyContent="flex-start">
-        <Box p={6} rounded="md" w="100%">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-
-              formik.handleSubmit();
-            }}
-            method="post"
-            name="contact"
-          >
-            <VStack spacing={4}>
-              <FormControl
-                isInvalid={
-                  formik.touched.email && formik.errors.email ? true : false
-                }
-              >
-                <FormLabel htmlFor="email">Email</FormLabel>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  borderColor='var(--color-teal)'
-                  focusBorderColor="teal.500"
-                  {...formik.getFieldProps("email")}
-                />
-                <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
-              </FormControl>
-
-              <FormControl
-                isInvalid={
-                  formik.touched.pass && formik.errors.pass ? true : false
-                }
-              >
-                <FormLabel htmlFor="pass">Password</FormLabel>
-                <InputGroup>
-                  <Input
-                    id="pass"
-                    name="pass"
-                    type={show ? "text" : "password"}
-                    borderColor='var(--color-teal)'
-                  focusBorderColor="teal.500"
-                    {...formik.getFieldProps("pass")}
-                  />
-                  <InputRightElement width="4.5rem">
-                    <Button h="1.75rem" size="sm" onClick={handleClick}>
-                      {show ? "hide" : "show"}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-                <FormErrorMessage>{formik.errors.pass}</FormErrorMessage>
-              </FormControl>
-
-              <Button
-                type="submit"
-                width="full"
-                isLoading={isLoading}
-                loadingText="Loging in...."
-                colorScheme="teal"
-                variant="outline"
-                spinnerPlacement="start"
-                isDisabled={isFormValid()}
-              >
-                Log in
-              </Button>
-            </VStack>
-          </form>
-        </Box>
-      </VStack>
       </Box>
-    </FullScreenSection>
+
+      <FullScreenSection
+        pt={16}
+        pb={16}
+        width="100vw"
+        backgroundColor="var(--color-white)"
+      >
+        <Box width="50vw">
+          <Heading as="h1" color="var(--color-dark)">
+            Admin Login
+          </Heading>
+
+          <VStack w="100%" alignItems="start" justifyContent="flex-start">
+            <Box p={6} rounded="md" w="100%">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+
+                  formik.handleSubmit();
+                }}
+                method="post"
+                name="contact"
+              >
+                <VStack spacing={4}>
+                  <FormControl
+                    isInvalid={
+                      formik.touched.email && formik.errors.email ? true : false
+                    }
+                  >
+                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      borderColor="var(--color-teal)"
+                      focusBorderColor="teal.500"
+                      {...formik.getFieldProps("email")}
+                    />
+                    <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
+                  </FormControl>
+
+                  <FormControl
+                    isInvalid={
+                      formik.touched.pass && formik.errors.pass ? true : false
+                    }
+                  >
+                    <FormLabel htmlFor="pass">Password</FormLabel>
+                    <InputGroup>
+                      <Input
+                        id="pass"
+                        name="pass"
+                        type={show ? "text" : "password"}
+                        borderColor="var(--color-teal)"
+                        focusBorderColor="teal.500"
+                        {...formik.getFieldProps("pass")}
+                      />
+                      <InputRightElement width="4.5rem">
+                        <Button h="1.75rem" size="sm" onClick={handleClick}>
+                          {show ? "hide" : "show"}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
+                    <FormErrorMessage>{formik.errors.pass}</FormErrorMessage>
+                  </FormControl>
+
+                  <Button
+                    type="submit"
+                    width="full"
+                    isLoading={isLoading}
+                    loadingText="Loging in...."
+                    colorScheme="teal"
+                    variant="outline"
+                    spinnerPlacement="start"
+                    isDisabled={isFormValid()}
+                  >
+                    Log in
+                  </Button>
+                </VStack>
+              </form>
+            </Box>
+          </VStack>
+        </Box>
+      </FullScreenSection>
     </>
   );
 };

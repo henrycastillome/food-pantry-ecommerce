@@ -21,6 +21,8 @@ const HomePage = () => {
         <Loader />
       ) : (
         <>
+          
+          <Header isHomePage />
           <ToastContainer
             position="top-center"
             autoClose={5000}
@@ -33,7 +35,6 @@ const HomePage = () => {
             pauseOnHover
             theme="light"
           />
-          <Header isHomePage />
           <Hero />
           <ProductSection />
           <Footer />
