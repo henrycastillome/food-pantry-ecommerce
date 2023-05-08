@@ -10,9 +10,9 @@ import {
   TableContainer,
   Button,
   Spinner,
+  Text,
   
 } from "@chakra-ui/react";
-import FullScreenSection from "./FullScreenSection";
 import axios from "axios";
 import AWS from "aws-sdk";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -66,9 +66,7 @@ const ListOrders = () => {
       toast.success("Deleted succesfully")
   };
 
-  if (!orders.length)
-    return <FullScreenSection> Loading.....</FullScreenSection>;
-
+  
   return (
     <>
     <ToastContainer
@@ -99,6 +97,7 @@ const ListOrders = () => {
              
             </Tr>
           </Thead>
+          {Array.isArray(orders) && orders.length > 0 ? (
           <Tbody>
             {orders.map((order, index) => (
               <Tr key={index}>
@@ -107,24 +106,23 @@ const ListOrders = () => {
                 <Td>{order.created_at}</Td>
                 <Td>{order.items_and_quantities}</Td>
                 <Td>{order.student_id}</Td>
-                
-                
-
-                
-              
-               
                 <Td>
                   <Button onClick={() => handleDelete(order.orders_id)}>
-                    {isDeleting ? (
-                      <Spinner />
-                    ) : (
-                      <FontAwesomeIcon icon={faTrash} />
-                    )}
+                    {isDeleting ? <Spinner /> : <FontAwesomeIcon icon={faTrash} />}
                   </Button>
                 </Td>
               </Tr>
             ))}
           </Tbody>
+        ) : (
+          <Tbody>
+            <Tr>
+              <Td colSpan={6}>
+                <Text>No orders to show</Text>
+              </Td>
+            </Tr>
+          </Tbody>
+          )}
         </Table>
       </TableContainer>
     </>

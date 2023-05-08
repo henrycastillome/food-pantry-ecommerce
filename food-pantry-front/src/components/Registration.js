@@ -60,7 +60,7 @@ const Registration = () => {
       try {
         const body = JSON.stringify(values);
         const response = await axios.post(
-          "/my_php/food-pantry-ecommerce/api/registration.php",
+          "https://food-pantry.herokuapp.com/registration.php",
           body
         );
         console.log(response);
@@ -147,7 +147,7 @@ const Registration = () => {
     setIsCheckingStudentId(true);
     try {
       const response = await axios.get(
-        "/my_php/food-pantry-ecommerce/api/studentCheck.php",
+        "https://food-pantry.herokuapp.com/studentCheck.php",
         { params: { studentId } }
       );
       const check = response.data["COUNT(*)"];
