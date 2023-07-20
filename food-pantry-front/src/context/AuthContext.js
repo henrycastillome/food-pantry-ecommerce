@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, [customer])
 
-  console.log(customer)
+  console.log("customer", customer)
   console.log(isCustomerValid)
 
   const [products, setProducts] = useState([]);
