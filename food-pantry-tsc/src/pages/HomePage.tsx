@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Loader from "../utils/Loader";
+import Header from "../components/Header";
 
 
 const HomePage:React.FC=()=>{
@@ -17,7 +18,9 @@ const HomePage:React.FC=()=>{
       <main>
         {isLoading ? (<Loader /> ):
           (
-            <h1>Henry Castillo</h1>
+            <>
+              <Header />
+            </>
           )}
       </main>
     )

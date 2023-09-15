@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import { ChakraProvider } from '@chakra-ui/react';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
