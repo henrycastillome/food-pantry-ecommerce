@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Loader from "../utils/Loader";
 import Header from "../components/Header";
+import { ToastContainer } from "react-toastify"
+import Hero from "../components/Hero";
 
 
 const HomePage:React.FC=()=>{
@@ -20,6 +22,20 @@ const HomePage:React.FC=()=>{
           (
             <>
               <Header />
+              <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                />
+              
+              <Hero />
             </>
           )}
       </main>
