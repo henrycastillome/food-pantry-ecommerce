@@ -3,6 +3,8 @@ import Loader from "../utils/Loader";
 import Header from "../components/Header";
 import { ToastContainer } from "react-toastify"
 import Hero from "../components/Hero";
+import ProductSection from "../components/ProductSection";
+import Footer from "../components/Footer";
 
 
 const HomePage:React.FC=()=>{
@@ -36,6 +38,8 @@ const HomePage:React.FC=()=>{
                 />
               
               <Hero />
+              <ProductSection />
+              <Footer />
             </>
           )}
       </main>
