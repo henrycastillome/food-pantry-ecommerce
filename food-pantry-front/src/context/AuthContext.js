@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
 
   function getProducts() {
     axios
-      .get("https://food-pantry.herokuapp.com/inventory.php")
+      .get( "http://localhost/my_php/food-pantry-ecommerce/api/inventory.php")
       .then(function (response) {
         console.log(response.data);
         setProducts(response.data);

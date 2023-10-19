@@ -32,9 +32,17 @@ switch ($method) {
         $stmt = $pdo->prepare("SELECT * FROM items");
         $stmt->execute();
         $allProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode($allProducts);
+        if(count($allProducts)>0){
+            http_response_code(200); // ok
+        
+            echo json_encode(["data"=>["products"=>$allProducts]]);
+        }else{
+            http_response_code(404); //not found
+            echo json_encode(["error"=>"No products found."]);
+        }
        }catch(PDOException $e){
-        echo "Error executing the query:  ".$e->getMessage();
+        http_response_code(500);//internal server error
+        echo json_encode(["error"=>"Error executing the query:  ".$e->getMessage()]);
         exit;
        }
        break;
