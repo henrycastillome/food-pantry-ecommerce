@@ -2,18 +2,21 @@
   "name": "food-pantry-tsc",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
+    "@babel/preset-typescript": "^7.23.2",
     "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
-    "@types/jest": "^27.0.1",
+    "@types/jest": "^29.5.6",
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "axios": "^1.5.1",
+    "axios-mock-adapter": "^1.22.0",
     "framer-motion": "^10.16.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -48,6 +51,8 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@jest/globals": "^29.7.0",
+    "ts-jest": "^29.1.1"
   }
 }

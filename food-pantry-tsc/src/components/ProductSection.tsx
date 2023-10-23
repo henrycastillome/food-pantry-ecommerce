@@ -2,6 +2,7 @@ import { Box, Heading } from "@chakra-ui/react"
 import FullScreenSection from "../utils/FullScreenSection"
 import { useEffect, useState } from "react"
 import axios from "axios";
+import ProductsApi from "../utils/Products";
 
 interface Item{
     item_id:number;
@@ -19,21 +20,20 @@ const ProductSection:React.FC<{}> =()=>{
 
     useEffect(() => {
         // Fetch products when the component mounts
-        getProducts();
+       const fetchData= async()=>{
+        try{
+            const api=new ProductsApi("http://localhost/my_php/food-pantry-ecommerce/api/inventory.php")
+            const data=await api.getAll()
+            console.log(data)
+            setProducts(data.products)
+        }   catch(error){
+            console.error(error)
+        }
+       };
+       fetchData()
       }, []);
 
-    //getting al products
-    function getProducts(){
-       axios
-        .get("http://localhost/my_php/food-pantry-ecommerce/api/inventory.php")
-        .then(function(response){
-            console.log(response.data)
-            setProducts(response.data)
-        })
-        .catch(function(error){
-            console.error(error)
-        })
-    }
+    
 
    
     
