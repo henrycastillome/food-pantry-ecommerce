@@ -29,6 +29,24 @@ class ProductsApi{
             return {error: "Failed to fetch products"}
         };
     }
+
+    async getRandomSixItems() {
+        try {
+          const data = await this.getAll();
+          if (Array.isArray(data) && data.length > 0) {
+            // Shuffle the data to get truly random items
+            const shuffledData = this.shuffleArray(data);
+            // Return the first 6 items from the shuffled data
+            return shuffledData.slice(0, 6);
+          } else {
+            throw new ProductNotFoundError();
+          }
+        } catch (error) {
+          throw new FailedToFetchProductsError();
+        }
+      }
+
+
        
     
 
@@ -54,7 +72,17 @@ class ProductsApi{
         }
     }
 
+    private shuffleArray(array: any[]) {
+        // Fisher-Yates shuffle algorithm
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+    }
 
-}
+
+
 
 export default ProductsApi;

@@ -23,7 +23,8 @@ const ProductSection:React.FC<{}> =()=>{
        const fetchData= async()=>{
         try{
             const api=new ProductsApi("http://localhost/my_php/food-pantry-ecommerce/api/inventory.php")
-            const data=await api.getAll()
+            console.log(api instanceof ProductsApi)
+            const data=await api.getRandomSixItems()
             console.log(data)
             setProducts(data.products)
         }   catch(error){
