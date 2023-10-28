@@ -1,22 +1,55 @@
-import { describe, expect, test } from "@jest/globals";
-import ProductsApi from "../../utils/Products";
+import axios from "axios";
+import ProductsApi from "../../utils/ProductsApi";
 import MockAdapter from "axios-mock-adapter";
-import axios, { AxiosInstance } from "axios";
+import { InvalidUrlError, ProductNotFoundError } from "../../utils/Errors";
 
-describe('ProductAPI', ()=>{
-    let mockAxios: any;
-    beforeAll(()=>{
-        mockAxios=new MockAdapter(axios)
-    })
+const mockAxios = new MockAdapter(axios);
 
-    afterAll(()=>{
-        mockAxios.restore()
-    })
-    it("should fetch products successfully",async () => {
-        const api=new ProductsApi("mocked_api_endpoint")
-        mockAxios.onGet('mocked_api_endpoint').reply(200,{data:["product1", "product2"]})
+describe("ProductApi", () => {
+  afterEach(() => {
+    mockAxios.reset();
+  });
 
-        const products= await api.getAll()
-        expect(products).toEqual(["product1", "product2"])
-    })
-})
+  it("should create an instance of ProductApi with a valid URL", () => {
+    const validUrl = "https://testingExample.com/api/products";
+    const api = new ProductsApi(validUrl);
+    expect(api).toBeInstanceOf(ProductsApi);
+  });
+
+  it("should create a invalidUrl error if the URL is not valid ", () => {
+    const invalidUrl = "InvalidUrl";
+    expect(() => new ProductsApi(invalidUrl)).toThrowError(InvalidUrlError);
+  });
+
+  it("it should handle succesful product retrieval", async () => {
+    const validUrl = "https://testingExample.com/api/products";
+    const api = new ProductsApi(validUrl);
+    const mockProduct = {
+      data: {
+        products: [
+          {
+            item_id: 42,
+            item_name: "ToiletPaper",
+            item_category: "Hygiene",
+            item_quantity: 48,
+          },
+        ],
+      },
+    };
+
+    mockAxios.onGet(validUrl).reply(200, mockProduct);
+
+    const products = await api.getAll();
+
+    expect(products).toEqual(mockProduct.data);
+  });
+
+  it("it should throw a 404 error of product not found",async ()=>{
+    const validUrl = "https://testingExample.com/api/products";
+    const api = new ProductsApi(validUrl);
+    
+    mockAxios.onGet(validUrl).reply(404, "Not found")
+
+    await expect(api.getAll()).rejects.toThrowError(ProductNotFoundError)
+  })
+});
