@@ -1,7 +1,7 @@
 import axios from "axios";
-import ProductsApi from "../../utils/ProductsApi";
+import ProductsApi from "../../api/ProductsApi";
 import MockAdapter from "axios-mock-adapter";
-import { InvalidUrlError, ProductNotFoundError } from "../../utils/Errors";
+import { InvalidUrlError, ProductNotFoundError } from "../../errors/Errors";
 
 const mockAxios = new MockAdapter(axios);
 

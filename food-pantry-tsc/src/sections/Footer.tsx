@@ -1,5 +1,5 @@
 import { HStack, Text, VStack } from "@chakra-ui/react";
-import FullScreenSection from "../utils/FullScreenSection";
+import FullScreenSection from "../components/FullScreenSection";
 import logonycnobg from "../images/nycdoenobg.png"
 
 

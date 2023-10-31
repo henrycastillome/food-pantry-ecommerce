@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Loader from "../utils/Loader";
-import Header from "../components/Header";
+import Loader from "../components/Loader";
+import Header from "../sections/Header";
 import { ToastContainer } from "react-toastify"
-import Hero from "../components/Hero";
-import ProductSection from "../components/ProductSection";
-import Footer from "../components/Footer";
+import Hero from "../sections/Hero";
+import ProductSection from "../sections/ProductSection";
+import Footer from "../sections/Footer";
 
 
 const HomePage:React.FC=()=>{

@@ -33,11 +33,19 @@ class FailedToFetchProductsError extends Error{
     }
 }
 
+class ContextError extends Error{
+    constructor(){
+        super("must be used within a provider")
+        this.name="ContextError"
+    }
+}
+
 
 export {
     InvalidUrlError,
     InvalidResponseStructureError,
     InternalServerError,
     FailedToFetchProductsError,
-    ProductNotFoundError
+    ProductNotFoundError,
+    ContextError
 }

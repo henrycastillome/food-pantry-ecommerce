@@ -1,5 +1,4 @@
-import React from "react"
-import FullScreenSection from "./FullScreenSection";
+import FullScreenSection from "./FullScreenSection"
 import roundlogo from "../images/roundlogo.png"
 
 

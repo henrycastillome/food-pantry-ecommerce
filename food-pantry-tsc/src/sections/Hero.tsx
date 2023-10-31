@@ -1,4 +1,4 @@
-import FullScreenSection from "../utils/FullScreenSection"
+import FullScreenSection from "../components/FullScreenSection"
 import { Box, Button, Heading, Text } from "@chakra-ui/react"
 
 

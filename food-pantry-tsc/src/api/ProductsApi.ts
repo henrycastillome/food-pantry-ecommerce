@@ -1,6 +1,6 @@
 import axios from "axios"
 import { InvalidResponseStructureError, InvalidUrlError, ProductNotFoundError,
- FailedToFetchProductsError, InternalServerError} from "./Errors"; 
+ FailedToFetchProductsError, InternalServerError} from "../errors/Errors"; 
 
 class ProductsApi{
     private api:string;
@@ -30,25 +30,8 @@ class ProductsApi{
         };
     }
 
-    async getRandomSixItems() {
-        try {
-          const data = await this.getAll();
-          if (Array.isArray(data) && data.length > 0) {
-            // Shuffle the data to get truly random items
-            const shuffledData = this.shuffleArray(data);
-            // Return the first 6 items from the shuffled data
-            return shuffledData.slice(0, 6);
-          } else {
-            throw new ProductNotFoundError();
-          }
-        } catch (error) {
-          throw new FailedToFetchProductsError();
-        }
-      }
+ 
 
-
-       
-    
 
     private isValidUrl(url:string):boolean {
         try{
@@ -72,14 +55,7 @@ class ProductsApi{
         }
     }
 
-    private shuffleArray(array: any[]) {
-        // Fisher-Yates shuffle algorithm
-        for (let i = array.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-      }
+
     }
 
 

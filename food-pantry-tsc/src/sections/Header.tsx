@@ -2,6 +2,7 @@ import * as React from "react"
 import { Box, BoxProps, Button, HStack, VStack } from "@chakra-ui/react"
 import logonycnobg from "../images/nycdoenobg.png";
 import { Link } from "react-router-dom";
+import CartDrawer from "../components/CartDrawer";
 
 
 
@@ -35,6 +36,7 @@ const Header: React.FC=()=>{
                             <Button bg="transparent">Home</Button>
                             <Button bg="transparent">Products</Button>
                             <Button bg="transparent">About</Button>
+                            <CartDrawer />
                         
                     </HStack>
                 </nav>
