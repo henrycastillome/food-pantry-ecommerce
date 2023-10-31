@@ -6,6 +6,7 @@ import { ContextError } from "../errors/Errors";
 
 type CartContextType={
     cart:CartItem[]
+    setCart:(cart:CartItem[])=>void
     handleAddToCartClick:(product:Item)=>void
     totalQuantity:number
 
@@ -13,7 +14,11 @@ type CartContextType={
 const CartContext=createContext<CartContextType | undefined>(undefined)
 
 export const CartProvider=({children}:{children:ReactNode})=>{
-    const [cart, setCart]=useState<CartItem[]>([])
+    const [cart, setCart]=useState<CartItem[]>(()=>{
+        const storedCart=localStorage.getItem("cart")
+        return storedCart ? JSON.parse(storedCart) : []
+
+    })
     
 
     const handleAddToCartClick=(product:Item)=>{
@@ -31,8 +36,19 @@ export const CartProvider=({children}:{children:ReactNode})=>{
         const totalQuantity=cart.reduce((total, item)=>total+item.quantity,0)
 
 
+        //update local storage
+
+        useEffect(()=>{
+            if(cart){
+                localStorage.setItem("cart", JSON.stringify(cart))
+            } else{
+                localStorage.removeItem("cart")
+            }
+        },[cart])
+
+
         return(
-            <CartContext.Provider value={{cart, handleAddToCartClick, totalQuantity}}>
+            <CartContext.Provider value={{cart, setCart, handleAddToCartClick, totalQuantity}}>
                 {children}
             </CartContext.Provider>
         )

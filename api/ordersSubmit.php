@@ -18,10 +18,17 @@ function sanitizeString($var)
     return $var;
 }
 
+function sendReponse($status, $message){
+    $response = ['status' => $status, 'message' => $message];
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+}
+
 try {
     $pdo = new PDO($attr, $user, $pass, $opts);
 } catch (PDOException $e) {
-    throw new PDOException($e->getMessage(), (int)$e->getCode());
+    sendReponse(0, "Database connection error: ".$e->getMessage());
 }
 
 
@@ -32,6 +39,12 @@ switch ($method) {
         try{
         $rawData = file_get_contents('php://input');
         $data = json_decode($rawData, true);
+
+        //validata input data
+
+        if(!isset($data['user_id']) || !isset($data['items'])){
+            sendReponse(0, 'Invalid input data.');
+        }
 
         $stmt = $pdo->prepare("INSERT INTO orders (user_id) VALUES (:user_id)");
         $user_id=sanitizeString($data['user_id']);
@@ -59,18 +72,17 @@ switch ($method) {
         $stmt->execute();
         }
 
-        $response = ['status' => 1, 'message' => 'success'];
+        sendReponse(1, 'Order submitted successfully.'  );
     } catch(PDOException $e){
-        $response = ['status' => 0, 'message' => 'Error: ' . $e->getMessage()];
+        sendReponse(0, 'Database error: '.$e->getMessage());    
     }
 
     header('Content-Type: application/json');
-
-        
-
-      
+  
         echo json_encode($response);
         break;
+    default:
+    sendReponse(0, 'Request method not accepted.');
 
  
 
