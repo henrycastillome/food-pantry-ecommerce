@@ -12,18 +12,24 @@ const CustomerContext = createContext<CustomerContextType | undefined>(undefined
 
 export const CustomerProvider=({children}:{children:React.ReactNode})=>{
     const [customer, setCustomer]=useState<User | null>(()=>{
-        const storedCustomer = localStorage.getItem("customer");
-        return storedCustomer ? JSON.parse(storedCustomer): null;
+        const storedCustomer = sessionStorage.getItem("customer");
+        try{
+            return storedCustomer ? JSON.parse(storedCustomer): null;
+        } catch(error){
+            console.error("Error parsing customer data",error)
+            return null
+        }
+        
     })
 
     const [isValidCustomer, setIsValidCustomer] = useState<boolean>(!!customer)
 
     useEffect(()=>{
         if(customer){
-            localStorage.setItem("customer", JSON.stringify(customer))
+            sessionStorage.setItem("customer", JSON.stringify(customer))
 
         } else{
-            localStorage.removeItem("customer");
+            sessionStorage.removeItem("customer");
         }
     }, [customer]);
 
