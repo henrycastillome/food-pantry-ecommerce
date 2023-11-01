@@ -1,14 +1,15 @@
+import React from 'react';
 import { createContext, useContext, useState, useEffect } from "react";
-
 import { User } from "../types/UserTypes";
 import { ContextError } from "../errors/Errors";
 
 
-type CustomerContextType = {
+export type CustomerContextType = {
     customer: User | null;
+    setCustomer: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-const CustomerContext = createContext<CustomerContextType | undefined>(undefined);
+export const CustomerContext = createContext<CustomerContextType | undefined>(undefined);
 
 export const CustomerProvider=({children}:{children:React.ReactNode})=>{
     const [customer, setCustomer]=useState<User | null>(()=>{
@@ -34,17 +35,22 @@ export const CustomerProvider=({children}:{children:React.ReactNode})=>{
     }, [customer]);
 
     return (
-        <CustomerContext.Provider value={{ customer }}>
+        <CustomerContext.Provider value={{ customer, setCustomer }}>
             {children}
         </CustomerContext.Provider>
     )
 
 }
     
+/**
+ * Custom hook to access the CustomerContext
+ * @returns {CustomerContextType} The customer context value
+ * @throws {ContextError} If used outside of a provider
+ */
     export const useCustomerContext=()=>{
         const context=useContext(CustomerContext)
 
-        if(context===undefined){
+        if(!context){
             throw new ContextError()
         }
         return context

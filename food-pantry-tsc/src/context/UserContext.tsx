@@ -39,8 +39,8 @@ export  const UserProvider=({children}:{children:React.ReactNode})=>{
 export const useUserContext=(()=>{
     const context=useContext(UserContext)
 
-    if(context===undefined){
-        throw new ContextError
+    if(!context){
+        throw new ContextError()
     }
     return context
 })
