@@ -6,6 +6,7 @@ import { ContextError } from "../errors/Errors";
 
 type UserContextType = {
     userManager: User | null;
+    isAuthenticated: boolean;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -30,7 +31,7 @@ export  const UserProvider=({children}:{children:React.ReactNode})=>{
    
 
     return (
-        <UserContext.Provider value={{ userManager }}>
+        <UserContext.Provider value={{ userManager, isAuthenticated }}>
             {children}
         </UserContext.Provider>
     )

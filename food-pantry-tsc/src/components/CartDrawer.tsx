@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { useCartContext } from '../context/CartContext';
-import { userOrderData } from '../hooks/useOrderData';
+import { useOrderData } from '../hooks/useOrderData';
 import { toast } from 'react-toastify';
 import { useCustomerContext } from '../context/CustomerContext';
 
@@ -24,14 +24,15 @@ const CartDrawer = () => {
         setCart([])
     }
 
+    const orderData=useOrderData(customer, cart)
+
     const handleSubmitOrder=async()=>{
         if(customer){
             setIsLoading(true)
         
 
         try{
-            const body=userOrderData(customer, cart)
-            const response=await axios.post("http://localhost/my_php/food-pantry-ecommerce/api/ordersSubmit.php", body)
+            const response=await axios.post("http://localhost/my_php/food-pantry-ecommerce/api/ordersSubmit.php", orderData)
             console.log(response.data)
 
             const status=response.data['status']

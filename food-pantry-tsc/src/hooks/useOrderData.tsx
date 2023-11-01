@@ -1,9 +1,9 @@
-import { useMemo } from "react";
+import {  useMemo } from "react";
 import { CartItem } from "../types/CartTypes";
 
 
 
-export function userOrderData(
+export function useOrderData(
     customer:any, 
     cart:CartItem[]
     )

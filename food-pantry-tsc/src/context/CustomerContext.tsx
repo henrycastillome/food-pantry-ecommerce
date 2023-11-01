@@ -7,6 +7,8 @@ import { ContextError } from "../errors/Errors";
 export type CustomerContextType = {
     customer: User | null;
     setCustomer: React.Dispatch<React.SetStateAction<User | null>>;
+    isValidCustomer: boolean;
+    setIsValidCustomer: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const CustomerContext = createContext<CustomerContextType | undefined>(undefined);
@@ -35,7 +37,7 @@ export const CustomerProvider=({children}:{children:React.ReactNode})=>{
     }, [customer]);
 
     return (
-        <CustomerContext.Provider value={{ customer, setCustomer }}>
+        <CustomerContext.Provider value={{ customer, setCustomer, isValidCustomer, setIsValidCustomer }}>
             {children}
         </CustomerContext.Provider>
     )
