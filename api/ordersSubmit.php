@@ -25,6 +25,18 @@ function sendReponse($status, $message){
     exit;
 }
 
+function validateToken($token){
+    if(session_status() == PHP_SESSION_ACTIVE){
+        $sanitizedToken = sanitizeString($token);
+
+        return isset($_SESSION['token']) && $_SESSION['token'] === $sanitizedToken;
+    }
+
+    return false;
+
+
+}
+
 try {
     $pdo = new PDO($attr, $user, $pass, $opts);
 } catch (PDOException $e) {
@@ -40,7 +52,13 @@ switch ($method) {
         $rawData = file_get_contents('php://input');
         $data = json_decode($rawData, true);
 
+        echo $data['token'];
+
         //validata input data
+
+        if(!isset($data['token']) || !validateToken($data['token'])){
+            sendReponse(0, 'Invalid token.');
+        }
 
         if(!isset($data['user_id']) || !isset($data['items'])){
             sendReponse(0, 'Invalid input data.');
@@ -59,7 +77,7 @@ switch ($method) {
             $quantity=$item['quantity'];
         
 
-        $stmt = $pdo->prepare("INSERT INTO orders_items (orders_id, item_id, quantity) VALUES (:order_id, :item_id, :quantity)");
+        $stmt = $pdo->prepare("INSERT INTO order_items (orders_id, item_id, quantity) VALUES (:order_id, :item_id, :quantity)");
 
         $stmt->bindParam(':order_id', $order_id);
         $stmt->bindParam(':item_id', $item_id);

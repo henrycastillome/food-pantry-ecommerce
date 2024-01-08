@@ -39,8 +39,6 @@ switch ($method) {
         $stmt->execute();
         $database_response=$stmt->fetch(PDO::FETCH_ASSOC);
 
-        // print_r($database_response);
-
         
 
         if ($database_response && password_verify(sanitizeString($data->pass), $database_response['password_user'] )) {

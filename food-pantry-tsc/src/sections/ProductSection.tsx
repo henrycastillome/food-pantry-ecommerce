@@ -3,8 +3,6 @@ import FullScreenSection from "../components/FullScreenSection"
 import { useEffect, useState } from "react"
 import ProductsApi from "../api/ProductsApi";
 import Cards from "../components/Cards";
-import { handleAddToCart } from "../utils/cartUtils";
-import { CartItem } from "../types/CartTypes";
 import { Item } from "../types/ItemTypes";
 import { useCartContext } from "../context/CartContext";
 
@@ -14,7 +12,7 @@ import { useCartContext } from "../context/CartContext";
 const ProductSection:React.FC<{}> =()=>{
 
     const [products, setProducts]=useState<Item[]>([])
-    const {cart, handleAddToCartClick}=useCartContext()
+    const {handleAddToCartClick}=useCartContext()
 
 
     useEffect(() => {
@@ -24,6 +22,7 @@ const ProductSection:React.FC<{}> =()=>{
             const fetchProducts=new ProductsApi("http://localhost/my_php/food-pantry-ecommerce/api/getRandomProducts.php")
             const data=await fetchProducts.getAll()
             setProducts(data.products)
+          
         }   catch(error){
             console.error(error)
         }

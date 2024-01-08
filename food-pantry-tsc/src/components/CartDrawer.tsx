@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import { faCartShopping, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useCartContext } from '../context/CartContext';
 import { useOrderData } from '../hooks/useOrderData';
 import { toast } from 'react-toastify';
@@ -15,7 +15,7 @@ const CartDrawer = () => {
     const {isOpen, onOpen, onClose} = useDisclosure()
     const {customer}=useCustomerContext()
     const navigate=useNavigate()
-    const {cart, setCart, totalQuantity}=useCartContext()
+    const {cart, setCart, totalQuantity, handleAddmoreToCartClick,handleRemoveFromCartClick, handleRemoveAllSingleItemFromCartClick}=useCartContext()
     const [isLoading, setIsLoading]=useState(false)
     const btnRef = React.useRef<HTMLButtonElement | null>(null)
 
@@ -23,6 +23,7 @@ const CartDrawer = () => {
         localStorage.removeItem("cart")
         setCart([])
     }
+
 
     const orderData=useOrderData(customer, cart)
 
@@ -33,8 +34,7 @@ const CartDrawer = () => {
 
         try{
             const response=await axios.post("http://localhost/my_php/food-pantry-ecommerce/api/ordersSubmit.php", orderData)
-            console.log(response.data)
-
+            console.log(response)
             const status=response.data['status']
             const message=response.data['message']
 
@@ -47,7 +47,7 @@ const CartDrawer = () => {
             localStorage.removeItem('cart')
             setCart([])
         } else{
-            toast.error("error server -->",message)
+            toast.error(`error server --> ${message}`)
         }
         } catch(error){
             toast.error('something went wrong, try again later')
@@ -75,6 +75,10 @@ const CartDrawer = () => {
                     size="lg"
                     icon={faCartShopping}
                     />
+                    
+                    {totalQuantity>0 && (
+                        <span className='cart-count'>{totalQuantity}</span>
+                    )}
                 
             </Button>
 
@@ -88,6 +92,7 @@ const CartDrawer = () => {
                             <CardBody>
                                 <Stack divider={<StackDivider />} spacing={4}>
                                     {cart.map((item, index)=>{
+                                        
                                         return(
                                             <Box key={index}>
                                                 <HStack>
@@ -98,6 +103,15 @@ const CartDrawer = () => {
                                                     <Box>
                                                         <Text fontSize='sm'>-----------X {item.quantity}
                                                     </Text>
+                                                    </Box>
+                                                    <Box>
+                                                        <Button colorScheme='teal' size='xs'onClick={()=>handleAddmoreToCartClick(item)}> +</Button>
+                                                    </Box>
+                                                    <Box>
+                                                        <Button colorScheme='teal' variant='outline' size='xs' onClick={()=>handleRemoveFromCartClick(item)}> -</Button>
+                                                    </Box>
+                                                    <Box>
+                                                        <Button colorScheme='teal' variant='ghost' size='xs' onClick={()=>handleRemoveAllSingleItemFromCartClick(item)}> <FontAwesomeIcon icon={faTrash} /> </Button>
                                                     </Box>
                                                 </HStack>
                                                 <Text pt="2" fontSize="sm">

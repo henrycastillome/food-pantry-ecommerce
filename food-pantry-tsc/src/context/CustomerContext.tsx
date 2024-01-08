@@ -17,6 +17,7 @@ export const CustomerProvider=({children}:{children:React.ReactNode})=>{
     const [customer, setCustomer]=useState<User | null>(()=>{
         const storedCustomer = sessionStorage.getItem("customer");
         try{
+            console.log("storedCustomer",storedCustomer)
             return storedCustomer ? JSON.parse(storedCustomer): null;
         } catch(error){
             console.error("Error parsing customer data",error)
@@ -24,6 +25,7 @@ export const CustomerProvider=({children}:{children:React.ReactNode})=>{
         }
         
     })
+    
 
     const [isValidCustomer, setIsValidCustomer] = useState<boolean>(!!customer)
 

@@ -1,12 +1,12 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
 import { User } from "../types/UserTypes";
-import { json } from "stream/consumers";
 import { ContextError } from "../errors/Errors";
 
 type UserContextType = {
     userManager: User | null;
     isAuthenticated: boolean;
+    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+    setUserManager: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -31,7 +31,7 @@ export  const UserProvider=({children}:{children:React.ReactNode})=>{
    
 
     return (
-        <UserContext.Provider value={{ userManager, isAuthenticated }}>
+        <UserContext.Provider value={{ userManager, isAuthenticated, setIsAuthenticated, setUserManager }}>
             {children}
         </UserContext.Provider>
     )
