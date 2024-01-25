@@ -12,10 +12,10 @@ export function useOrderData(
     let customerSubmit=useMemo(()=>{
         
         return {
-            user_id:Number(customer?.user_id),
-            token:customer?.token,
+            user_id:Number(customer?.user_id)
         }},[customer]
     )
+
 
     const orderSubmit=useMemo(()=>{
         return {

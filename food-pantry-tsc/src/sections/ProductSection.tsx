@@ -1,10 +1,11 @@
-import { Box, Grid, Heading, GridItem } from "@chakra-ui/react"
+import { Box, Grid, Heading, GridItem, Button } from "@chakra-ui/react"
 import FullScreenSection from "../components/FullScreenSection"
 import { useEffect, useState } from "react"
 import ProductsApi from "../api/ProductsApi";
 import Cards from "../components/Cards";
 import { Item } from "../types/ItemTypes";
 import { useCartContext } from "../context/CartContext";
+import { Link } from "react-router-dom";
 
 
 
@@ -73,6 +74,9 @@ const ProductSection:React.FC<{}> =()=>{
                                 })}
                             </Grid>
                          )}
+                         <Link to="/products">
+                            <Button variant="link" colorScheme="teal"> See all products</Button>
+                         </Link>
                     </Box>
                 </main>
 

@@ -7,6 +7,7 @@ import { CartProvider } from './context/CartContext';
 import { UserProvider } from './context/UserContext';
 import { CustomerProvider } from './context/CustomerContext';
 import Login from './sections/Login';
+import ProductPage from './pages/ProductPage';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/products' element={<ProductPage />} />
       </Routes>
       </CartProvider>
       </CustomerProvider>

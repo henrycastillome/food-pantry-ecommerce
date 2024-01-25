@@ -55,8 +55,10 @@ const Header=()=>{
                 </nav>
                 <nav>
                     <HStack spacing={4} color="var(--color-dark)">
-                        
+
+                        <Link to="/">
                             <Button bg="transparent">Home</Button>
+                        </Link>
                             <Button bg="transparent">Products</Button>
                             <Button bg="transparent">About</Button>
                             <CartDrawer />

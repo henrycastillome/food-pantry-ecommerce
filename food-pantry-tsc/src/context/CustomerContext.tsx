@@ -38,6 +38,8 @@ export const CustomerProvider=({children}:{children:React.ReactNode})=>{
         }
     }, [customer]);
 
+    console.log(customer)
+
     return (
         <CustomerContext.Provider value={{ customer, setCustomer, isValidCustomer, setIsValidCustomer }}>
             {children}
