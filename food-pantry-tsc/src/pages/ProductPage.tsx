@@ -6,17 +6,22 @@ import { Item } from "../types/ItemTypes";
 import { useCartContext } from "../context/CartContext";
 import ProductsApi from "../api/ProductsApi";
 import Cards from "../components/Cards";
+import { InvalidResponseStructureError } from "../errors/Errors";
 
+// working in the products and filter
 const ProductPage:React.FC<{}> = () => {
 
     const [productsPage, setProductsPage] = useState<Item[]>([]);
+    const [category, setCategory] = useState<Item[]>([]);
     const { handleAddToCartClick } = useCartContext();
     const [isActive, setIsActive]=React.useState<boolean>(false)
+    const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(null);
+
 
     const fetchAllProducts = async () => {
         
         try {
-            const fetchProducts = new ProductsApi("http://localhost/my_php/food-pantry-ecommerce/api/getAllProducts.php");
+            const fetchProducts = new ProductsApi("http://localhost/my_php/food-pantry-ecommerce/api/getAllAll.php");
             const response = await fetchProducts.getAll();
             setProductsPage(response.products);
         } catch (error) {
@@ -24,21 +29,42 @@ const ProductPage:React.FC<{}> = () => {
         }
     }
 
-    const fetchHygieneProducts = async () => {
+    const fetchCategoryProducts = async () => {
+        try {
+            const fetchCategory = new ProductsApi("http://localhost/my_php/food-pantry-ecommerce/api/getCategories.php");
+            const response = await fetchCategory.getAll();
+            response.products.push({item_category:"All"})
+            setCategory(response.products);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const productByCategory = async (value:string) => {
         setIsActive(false)
         try {
-            const fetchProducts = new ProductsApi("http://localhost/my_php/food-pantry-ecommerce/api/getHygieneAll.php");
+            const fetchProducts = new ProductsApi(`http://localhost/my_php/food-pantry-ecommerce/api/get${value}All.php`);
             const response = await fetchProducts.getAll();
-            setProductsPage(response.products);
+            if(response.products.length===0){
+                setProductsPage([]) }
+            else{
+            setProductsPage(response.products)
+            setActiveCategoryIndex(0)
+            };
         } catch (error) {
-            console.error(error);
+            setProductsPage([])
+            console.log(error)
+           
         }
     }
 
-    const activeButton = () => {
-        
-    }
+    useEffect(()=>{
+        fetchCategoryProducts()
+        fetchAllProducts()
+    },[])
+
     console.log(productsPage)
+    console.log(category)
 
    
   return (
@@ -75,21 +101,21 @@ const ProductPage:React.FC<{}> = () => {
           <HStack spacing={4}>
             <Heading fontSize="lg"> Filter by: </Heading>
             <ButtonGroup variant="outline" colorScheme="teal" spacing={4}>
-              <Button isActive={isActive}  onClick={()=>fetchAllProducts()} >
-                All Products
-              </Button>
-              <Button onClick={()=>fetchHygieneProducts()}>
-                {" "}
-                Hygiene
-              </Button>
-              <Button >
-                {" "}
-                Food
-              </Button>
-              <Button >
-                {" "}
-                Household Items
-              </Button>
+
+             {category.length===0 ?(
+                    <Box>No Categories to show...</Box>
+                ):(
+                    category.map((category,index)=>{
+                        return(
+                            <Button key={index}  onClick={category.item_category === "All"? ()=> fetchAllProducts() : ()=>productByCategory(category.item_category)} >
+                                {category.item_category} 
+                            </Button>
+                        )
+                    }
+                    
+                ))
+             }
+              
             </ButtonGroup>
           </HStack>
         </Box>
